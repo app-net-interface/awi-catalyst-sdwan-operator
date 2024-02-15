@@ -1,0 +1,444 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.11.1
+  creationTimestamp: null
+  name: internetworkdomainappconnections.awi.cisco.awi
+spec:
+  group: awi.cisco.awi
+  names:
+    kind: InterNetworkDomainAppConnection
+    listKind: InterNetworkDomainAppConnectionList
+    plural: internetworkdomainappconnections
+    singular: internetworkdomainappconnection
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: InterNetworkDomainAppConnection is the Schema for the appconnections
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              appConnection:
+                properties:
+                  accessPolicy:
+                    properties:
+                      selector:
+                        properties:
+                          matchId:
+                            properties:
+                              id:
+                                type: string
+                            type: object
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          matchName:
+                            properties:
+                              name:
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  controller:
+                    description: Don't use enums for now as they are problematic in
+                      CRD spec build
+                    type: string
+                  from:
+                    properties:
+                      SGT:
+                        properties:
+                          name:
+                            type: string
+                        type: object
+                      cluster:
+                        properties:
+                          selector:
+                            properties:
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      endpoint:
+                        properties:
+                          kind:
+                            type: string
+                          selector:
+                            properties:
+                              matchCluster:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                              matchExpressions:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    operator:
+                                      type: string
+                                    values:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                              matchNamespace:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      namespace:
+                        properties:
+                          selector:
+                            properties:
+                              matchExpressions:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    operator:
+                                      type: string
+                                    values:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                type: string
+                            type: object
+                        type: object
+                      networkDomain:
+                        properties:
+                          Kind:
+                            description: VPC or VRF
+                            type: string
+                          selector:
+                            properties:
+                              matchID:
+                                properties:
+                                  id:
+                                    type: string
+                                type: object
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                              matchOwner:
+                                properties:
+                                  owner:
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      subnet:
+                        properties:
+                          selector:
+                            properties:
+                              matchExpressions:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    operator:
+                                      type: string
+                                    values:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchPrefix:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                        type: object
+                    type: object
+                  metadata:
+                    properties:
+                      creationTimestamp:
+                        type: string
+                      description:
+                        type: string
+                      label:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      modificationTimestamp:
+                        type: string
+                      name:
+                        type: string
+                    type: object
+                  networkDomainConnection:
+                    properties:
+                      selector:
+                        properties:
+                          matchName:
+                            type: string
+                        type: object
+                    type: object
+                  networkPolicy:
+                    properties:
+                      selector:
+                        properties:
+                          matchName:
+                            type: string
+                        type: object
+                    type: object
+                  to:
+                    properties:
+                      cluster:
+                        properties:
+                          selector:
+                            properties:
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      endpoint:
+                        properties:
+                          kind:
+                            type: string
+                          selector:
+                            properties:
+                              matchCluster:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                              matchExpressions:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    operator:
+                                      type: string
+                                    values:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                              matchNamespace:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      externalEntities:
+                        items:
+                          type: string
+                        type: array
+                      namespace:
+                        properties:
+                          selector:
+                            properties:
+                              matchExpressions:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    operator:
+                                      type: string
+                                    values:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                type: string
+                            type: object
+                        type: object
+                      networkDomain:
+                        properties:
+                          Kind:
+                            description: VPC or VRF
+                            type: string
+                          selector:
+                            properties:
+                              matchID:
+                                properties:
+                                  id:
+                                    type: string
+                                type: object
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                              matchOwner:
+                                properties:
+                                  owner:
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      service:
+                        properties:
+                          kind:
+                            properties:
+                              k8sService:
+                                properties:
+                                  serviceType:
+                                    type: string
+                                type: object
+                              vmService:
+                                properties:
+                                  serviceType:
+                                    type: string
+                                type: object
+                            type: object
+                          selector:
+                            properties:
+                              matchCluster:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                              matchExpressions:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    operator:
+                                      type: string
+                                    values:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              matchHost:
+                                properties:
+                                  ip:
+                                    type: string
+                                type: object
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchName:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                              matchNamespace:
+                                properties:
+                                  name:
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      subnet:
+                        properties:
+                          selector:
+                            properties:
+                              matchExpressions:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    operator:
+                                      type: string
+                                    values:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              matchPrefix:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                        type: object
+                    type: object
+                type: object
+            type: object
+          status:
+            type: string
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

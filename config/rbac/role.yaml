@@ -1,0 +1,215 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - instances
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - instances/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - instances/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - internetworkdomainappconnections
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - internetworkdomainappconnections/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - internetworkdomainappconnections/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - internetworkdomains
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - internetworkdomains/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - internetworkdomains/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - networkdomains
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - networkdomains/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - networkdomains/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - sites
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - sites/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - sites/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - subnets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - subnets/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - subnets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - vpcs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - vpcs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - vpcs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - vpns
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - vpns/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.cisco.awi
+  resources:
+  - vpns/status
+  verbs:
+  - get
+  - patch
+  - update
