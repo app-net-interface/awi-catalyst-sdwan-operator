@@ -43,8 +43,6 @@ spec:
     spec:
       securityContext:
         runAsNonRoot: true
-      imagePullSecrets:
-      - name: ausm-private-registry
       containers:
       - command:
         - /manager

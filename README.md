@@ -113,40 +113,31 @@ kube-system   kube-scheduler-minikube                       1/1     Running   0 
 kube-system   storage-provisioner                           1/1     Running   1 (20h ago)   20h
 ```
 
-In order to make `kube-awi-controller-manager` working you need to modify 3 things in the deployment:
+In order to make `kube-awi-controller-manager` working you need to modify the deployent:
 
 ```
 kubectl edit deployment  kube-awi-controller-manager -n awi-system
 ```
 
-1. Locate args and add `--awi-catalyst-address` pointing at the local process
-    of awi-grpc-catalyst-sdwan
+Locate args and add `--awi-catalyst-address` pointing at the local process
+of awi-grpc-catalyst-sdwan
 
-    ```
-    - args:
-        - --health-probe-bind-address=:8081
-        - --metrics-bind-address=127.0.0.1:8080
-        - --awi-catalyst-address=host.minikube.internal:50051
-        - --leader-elect
-    ```
+```
+- args:
+    - --health-probe-bind-address=:8081
+    - --metrics-bind-address=127.0.0.1:8080
+    - --awi-catalyst-address=host.minikube.internal:50051
+    - --leader-elect
+```
 
-    The `host.minikube.internal` address points to your host machine.
-    The AWI GRPC Catalyst SDWAN needs to be started on `0.0.0.0` rather
-    than `127.0.0.1` - otherwise it won't work.
+The `host.minikube.internal` address points to your host machine.
+The AWI GRPC Catalyst SDWAN needs to be started on `0.0.0.0` rather
+than `127.0.0.1` - otherwise it won't work.
 
-    If, for some reason, this won't be able to reach your host address
-    (you will know that by the fact that manager logs will show only one
-    entry: `connecting`), try running `minikube tunnel` in different
-    terminal.
-
-1. Remove readiness and liveness probes. That needs to be fixed.
-
-1. Disable security context:
-
-    ```
-          securityContext:
-            runAsNonRoot: false
-    ```
+If, for some reason, this won't be able to reach your host address
+(you will know that by the fact that manager logs will show only one
+entry: `connecting`), try running `minikube tunnel` in different
+terminal.
 
 After doing so, the pod should be restarted and initialized successfully,
 which you can inspect by seeing `2/2` containers in `get pods` command and
