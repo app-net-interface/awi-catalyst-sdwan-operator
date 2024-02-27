@@ -29,7 +29,7 @@ import (
 )
 
 // TODO make configurable
-var SupportedClouds = []string{"AWS"}
+var SupportedClouds = []string{"AWS", "GCP"}
 
 const Namespace = "awi-system"
 
