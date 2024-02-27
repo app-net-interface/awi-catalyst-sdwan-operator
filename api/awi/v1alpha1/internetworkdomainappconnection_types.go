@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
 	awi "github.com/app-net-interface/awi-grpc/pb"
@@ -24,23 +24,28 @@ import (
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// Subnet is the Schema for the subnets API
-type Subnet struct {
+// InterNetworkDomainAppConnection is the Schema for the appconnections API
+type InterNetworkDomainAppConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec awi.Subnet `json:"spec,omitempty"`
+	Spec   AppConnectionSpec `json:"spec,omitempty"`
+	Status string            `json:"status,omitempty"`
+}
+
+type AppConnectionSpec struct {
+	AppConnection awi.AppConnection `json:"appConnection,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// SubnetList contains a list of Subnet
-type SubnetList struct {
+// InterNetworkDomainAppConnectionList contains a list of InterNetworkDomainAppConnection
+type InterNetworkDomainAppConnectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Subnet `json:"items"`
+	Items           []InterNetworkDomainAppConnection `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Subnet{}, &SubnetList{})
+	SchemeBuilder.Register(&InterNetworkDomainAppConnection{}, &InterNetworkDomainAppConnectionList{})
 }

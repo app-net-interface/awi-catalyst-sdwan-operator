@@ -27,8 +27,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
-	awiv1 "awi.cisco.awi/api/v1"
-	awiClient "awi.cisco.awi/client"
+	awiv1alpha1 "app-net-interface.io/kube-awi/api/awi/v1alpha1"
+	awiClient "app-net-interface.io/kube-awi/client"
 )
 
 // InterNetworkDomainReconciler reconciles a InterNetworkDomain object
@@ -38,16 +38,16 @@ type InterNetworkDomainReconciler struct {
 	AwiClient *awiClient.AwiGrpcClient
 }
 
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=internetworkdomains,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=internetworkdomains/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=internetworkdomains/finalizers,verbs=update
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomains,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomains/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomains/finalizers,verbs=update
 
 func (r *InterNetworkDomainReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger := log.FromContext(ctx)
 	logger.Info("Request received", "req:", req.String())
 	logger.Info("Reconciler called")
 
-	var conn awiv1.InterNetworkDomain
+	var conn awiv1alpha1.InterNetworkDomain
 
 	if err := r.Get(ctx, req.NamespacedName, &conn); err != nil {
 		logger.Error(err, "unable to fetch InterNetworkDomain object", "namespace:", req.Namespace, "name:", req.Name)
@@ -58,7 +58,7 @@ func (r *InterNetworkDomainReconciler) Reconcile(ctx context.Context, req ctrl.R
 	}
 
 	// name of our custom finalizer
-	myFinalizerName := "internetworkdomain.awi.cisco.awi/finalizer"
+	myFinalizerName := "internetworkdomain.awi.app-net-interface.io/finalizer"
 
 	// examine DeletionTimestamp to determine if object is under deletion
 	if conn.ObjectMeta.DeletionTimestamp.IsZero() {
@@ -104,7 +104,7 @@ func (r *InterNetworkDomainReconciler) Reconcile(ctx context.Context, req ctrl.R
 // SetupWithManager sets up the controller with the Manager.
 func (r *InterNetworkDomainReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&awiv1.InterNetworkDomain{}).
+		For(&awiv1alpha1.InterNetworkDomain{}).
 		WithEventFilter(predicate.Funcs{
 			UpdateFunc: func(e event.UpdateEvent) bool {
 				// update of network domains connection is not supported, so we ignore all update events
@@ -120,7 +120,7 @@ func (r *InterNetworkDomainReconciler) SetupWithManager(mgr ctrl.Manager) error 
 		Complete(r)
 }
 
-func (r *InterNetworkDomainReconciler) removeConnection(conn *awiv1.InterNetworkDomain) error {
+func (r *InterNetworkDomainReconciler) removeConnection(conn *awiv1alpha1.InterNetworkDomain) error {
 	// sending disconnect request
 	return r.AwiClient.DisconnectRequest(&conn.Spec)
 }

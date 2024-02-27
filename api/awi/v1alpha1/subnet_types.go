@@ -14,34 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	awi "github.com/app-net-interface/awi-grpc/pb"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// NetworkDomain is the Schema for the networkdomains API
-type NetworkDomain struct {
+// Subnet is the Schema for the subnets API
+type Subnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec awi.NetworkDomainObject `json:"spec,omitempty"`
+	Spec awi.Subnet `json:"spec,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// NetworkDomainList contains a list of NetworkDomain
-type NetworkDomainList struct {
+// SubnetList contains a list of Subnet
+type SubnetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []NetworkDomain `json:"items"`
+	Items           []Subnet `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&NetworkDomain{}, &NetworkDomainList{})
+	SchemeBuilder.Register(&Subnet{}, &SubnetList{})
 }

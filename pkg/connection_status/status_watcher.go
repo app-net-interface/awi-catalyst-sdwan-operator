@@ -24,8 +24,8 @@ import (
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	apiv1 "awi.cisco.awi/api/v1"
-	awiClient "awi.cisco.awi/client"
+	apiv1 "app-net-interface.io/kube-awi/api/awi/v1alpha1"
+	awiClient "app-net-interface.io/kube-awi/client"
 	awi "github.com/app-net-interface/awi-grpc/pb"
 	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
 )

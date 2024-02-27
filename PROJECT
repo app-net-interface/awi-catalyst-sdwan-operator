@@ -2,95 +2,96 @@
 # This file is used to track the info used to scaffold your project
 # and allow the plugins properly work.
 # More info: https://book.kubebuilder.io/reference/project-config.html
-domain: cisco.awi
+domain: app-net-interface.io
 layout:
 - go.kubebuilder.io/v3
+multigroup: true
 projectName: kube-awi
-repo: awi.cisco.awi
+repo: app-net-interface.io/kube-awi
 resources:
 - api:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: ServiceConnection
-  path: cisco.awi/awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: InterNetworkDomain
-  path: cisco.awi/awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: AppConnection
-  path: awi.cisco.awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: NetworkDomain
-  path: awi.cisco.awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: Instance
-  path: awi.cisco.awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: Site
-  path: awi.cisco.awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: Subnet
-  path: awi.cisco.awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: VPC
-  path: awi.cisco.awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: VPN
-  path: awi.cisco.awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 - api:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: cisco.awi
+  domain: app-net-interface.io
   group: awi
   kind: InterNetworkDomainAppConnection
-  path: awi.cisco.awi/api/v1
-  version: v1
+  path: app-net-interface.io/kube-awi/api/awi/v1alpha1
+  version: v1alpha1
 version: "3"

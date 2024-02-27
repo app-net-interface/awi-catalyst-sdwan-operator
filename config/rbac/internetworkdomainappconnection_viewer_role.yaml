@@ -29,7 +29,7 @@ metadata:
   name: internetworkdomainappconnection-viewer-role
 rules:
 - apiGroups:
-  - awi.cisco.awi
+  - awi.app-net-interface.io
   resources:
   - internetworkdomainappconnections
   verbs:
@@ -37,7 +37,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - awi.cisco.awi
+  - awi.app-net-interface.io
   resources:
   - internetworkdomainappconnections/status
   verbs:

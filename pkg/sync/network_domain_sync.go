@@ -27,13 +27,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
 
-	apiv1 "awi.cisco.awi/api/v1"
+	apiv1 "app-net-interface.io/kube-awi/api/awi/v1alpha1"
 	awi "github.com/app-net-interface/awi-grpc/pb"
 )
 
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=networkdomains,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=networkdomains/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=networkdomains/finalizers,verbs=update
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=networkdomains,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=networkdomains/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=networkdomains/finalizers,verbs=update
 
 type NetworkDomainSyncer struct {
 	logger    logr.Logger

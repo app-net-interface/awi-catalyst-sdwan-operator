@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
 	awi "github.com/app-net-interface/awi-grpc/pb"
@@ -24,23 +24,23 @@ import (
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// VPN is the Schema for the vpns API
-type VPN struct {
+// VPC is the Schema for the vpcs API
+type VPC struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec awi.VPN `json:"spec,omitempty"`
+	Spec awi.VPC `json:"spec,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// VPNList contains a list of VPN
-type VPNList struct {
+// VPCList contains a list of VPC
+type VPCList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VPN `json:"items"`
+	Items           []VPC `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&VPN{}, &VPNList{})
+	SchemeBuilder.Register(&VPC{}, &VPCList{})
 }

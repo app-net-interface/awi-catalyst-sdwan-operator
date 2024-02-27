@@ -29,7 +29,7 @@ metadata:
   name: networkdomain-editor-role
 rules:
 - apiGroups:
-  - awi.cisco.awi
+  - awi.app-net-interface.io
   resources:
   - networkdomains
   verbs:
@@ -41,7 +41,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - awi.cisco.awi
+  - awi.app-net-interface.io
   resources:
   - networkdomains/status
   verbs:

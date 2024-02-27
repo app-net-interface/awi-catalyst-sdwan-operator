@@ -14,40 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	awi "github.com/app-net-interface/awi-grpc/pb"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// InterNetworkDomain is the Schema for the internetworkdomains API
-type InterNetworkDomain struct {
+// VPN is the Schema for the vpns API
+type VPN struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   awi.ConnectionRequest    `json:"spec,omitempty"`
-	Status InterNetworkDomainStatus `json:"status,omitempty"`
+	Spec awi.VPN `json:"spec,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// InterNetworkDomainList contains a list of InterNetworkDomain
-type InterNetworkDomainList struct {
+// VPNList contains a list of VPN
+type VPNList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []InterNetworkDomain `json:"items"`
-}
-
-type InterNetworkDomainStatus struct {
-	State        string `json:"state,omitempty"`
-	ConnectionId string `json:"connection_id,omitempty"`
+	Items           []VPN `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&InterNetworkDomain{}, &InterNetworkDomainList{})
+	SchemeBuilder.Register(&VPN{}, &VPNList{})
 }

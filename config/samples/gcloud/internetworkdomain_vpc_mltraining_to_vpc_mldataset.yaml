@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: awi.cisco.awi/v1
+apiVersion: awi.app-net-interface.io/v1alpha1
 kind: InterNetworkDomain
 metadata:
   name: mltraining-to-mldataset

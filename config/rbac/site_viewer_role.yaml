@@ -29,7 +29,7 @@ metadata:
   name: site-viewer-role
 rules:
 - apiGroups:
-  - awi.cisco.awi
+  - awi.app-net-interface.io
   resources:
   - sites
   verbs:
@@ -37,7 +37,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - awi.cisco.awi
+  - awi.app-net-interface.io
   resources:
   - sites/status
   verbs:

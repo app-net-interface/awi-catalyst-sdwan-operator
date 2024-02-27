@@ -5,20 +5,20 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.1
   creationTimestamp: null
-  name: vpns.awi.cisco.awi
+  name: vpcs.awi.app-net-interface.io
 spec:
-  group: awi.cisco.awi
+  group: awi.app-net-interface.io
   names:
-    kind: VPN
-    listKind: VPNList
-    plural: vpns
-    singular: vpn
+    kind: VPC
+    listKind: VPCList
+    plural: vpcs
+    singular: vpc
   scope: Namespaced
   versions:
-  - name: v1
+  - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: VPN is the Schema for the vpns API
+        description: VPC is the Schema for the vpcs API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -34,11 +34,21 @@ spec:
             type: object
           spec:
             properties:
+              AccountName:
+                type: string
               ID:
                 type: string
-              SegmentID:
+              Labels:
+                additionalProperties:
+                  type: string
+                type: object
+              Name:
                 type: string
-              SegmentName:
+              Provider:
+                type: string
+              Region:
+                type: string
+              Tag:
                 type: string
             type: object
         type: object

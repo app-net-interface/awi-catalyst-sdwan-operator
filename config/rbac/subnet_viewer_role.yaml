@@ -29,7 +29,7 @@ metadata:
   name: subnet-viewer-role
 rules:
 - apiGroups:
-  - awi.cisco.awi
+  - awi.app-net-interface.io
   resources:
   - subnets
   verbs:
@@ -37,7 +37,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - awi.cisco.awi
+  - awi.app-net-interface.io
   resources:
   - subnets/status
   verbs:

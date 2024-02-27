@@ -5,20 +5,20 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.1
   creationTimestamp: null
-  name: subnets.awi.cisco.awi
+  name: instances.awi.app-net-interface.io
 spec:
-  group: awi.cisco.awi
+  group: awi.app-net-interface.io
   names:
-    kind: Subnet
-    listKind: SubnetList
-    plural: subnets
-    singular: subnet
+    kind: Instance
+    listKind: InstanceList
+    plural: instances
+    singular: instance
   scope: Namespaced
   versions:
-  - name: v1
+  - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Subnet is the Schema for the subnets API
+        description: Instance is the Schema for the instances API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -34,7 +34,7 @@ spec:
             type: object
           spec:
             properties:
-              CidrBlock:
+              ID:
                 type: string
               Labels:
                 additionalProperties:
@@ -42,11 +42,15 @@ spec:
                 type: object
               Name:
                 type: string
-              SubnetId:
+              PrivateIP:
                 type: string
-              VpcId:
+              PublicIP:
                 type: string
-              Zone:
+              State:
+                type: string
+              SubnetID:
+                type: string
+              VPCID:
                 type: string
             type: object
         type: object

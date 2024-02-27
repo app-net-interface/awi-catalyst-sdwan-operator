@@ -27,8 +27,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8s_cl "sigs.k8s.io/controller-runtime/pkg/client"
 
-	apiv1 "awi.cisco.awi/api/v1"
-	awi_cl "awi.cisco.awi/client"
+	apiv1 "app-net-interface.io/kube-awi/api/awi/v1alpha1"
+	awi_cl "app-net-interface.io/kube-awi/client"
 	awi "github.com/app-net-interface/awi-grpc/pb"
 )
 
@@ -43,9 +43,9 @@ type instanceWithProvider struct {
 	Provider string
 }
 
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=instances,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=instances/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=instances/finalizers,verbs=update
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=instances,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=instances/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=instances/finalizers,verbs=update
 
 func (s *InstanceSyncer) Sync() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)

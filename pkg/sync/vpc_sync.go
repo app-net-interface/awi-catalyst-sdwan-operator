@@ -27,14 +27,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8s_cl "sigs.k8s.io/controller-runtime/pkg/client"
 
-	apiv1 "awi.cisco.awi/api/v1"
-	awi_cl "awi.cisco.awi/client"
+	apiv1 "app-net-interface.io/kube-awi/api/awi/v1alpha1"
+	awi_cl "app-net-interface.io/kube-awi/client"
 	awi "github.com/app-net-interface/awi-grpc/pb"
 )
 
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=vpcs,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=vpcs/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=vpcs/finalizers,verbs=update
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=vpcs,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=vpcs/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=vpcs/finalizers,verbs=update
 
 type VPCSyncer struct {
 	k8sClient k8s_cl.Client

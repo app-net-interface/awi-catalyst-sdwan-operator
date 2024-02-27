@@ -21,7 +21,7 @@ Run:
 ### Running controller
 Run:
 - `make docker-build` to build controller image,
-- (if you use kind cluster) change image pull policy for `cisco.awi/awi-controller:<TAG>` image to
+- (if you use kind cluster) change image pull policy for `app-net-interface.io/awi-controller:<TAG>` image to
 `imagePullPolicy: IfNotPresent` to avoid pulling issues (TODO: automate this), required one time only,
 - (if you use kind cluster) `CLUSTER_NAME=<your-cluster-name> make kind-load`,
 - (if you use remote cluster) `make docker-push`,
@@ -89,15 +89,14 @@ This should create CRDs and Manager pod in the cluster:
 > kubectl get crds -A
 ---
 NAME                                             CREATED AT
-instances.awi.cisco.awi                          2024-02-09T04:09:55Z
-internetworkdomainappconnections.awi.cisco.awi   2024-02-09T04:09:55Z
-internetworkdomains.awi.cisco.awi                2024-02-09T04:09:55Z
-networkdomains.awi.cisco.awi                     2024-02-09T04:09:55Z
-serviceconnections.awi.cisco.awi                 2024-02-09T04:09:55Z
-sites.awi.cisco.awi                              2024-02-09T04:09:55Z
-subnets.awi.cisco.awi                            2024-02-09T04:09:55Z
-vpcs.awi.cisco.awi                               2024-02-09T04:09:55Z
-vpns.awi.cisco.awi                               2024-02-09T04:09:55Z
+instances.awi.app-net-interface.io                          2024-02-09T04:09:55Z
+internetworkdomainappconnections.awi.app-net-interface.io   2024-02-09T04:09:55Z
+internetworkdomains.awi.app-net-interface.io                2024-02-09T04:09:55Z
+networkdomains.awi.app-net-interface.io                     2024-02-09T04:09:55Z
+sites.awi.app-net-interface.io                              2024-02-09T04:09:55Z
+subnets.awi.app-net-interface.io                            2024-02-09T04:09:55Z
+vpcs.awi.app-net-interface.io                               2024-02-09T04:09:55Z
+vpns.awi.app-net-interface.io                               2024-02-09T04:09:55Z
 ```
 
 ```

@@ -21,4 +21,4 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
-  name: internetworkdomainappconnections.awi.cisco.awi
+  name: internetworkdomainappconnections.awi.app-net-interface.io

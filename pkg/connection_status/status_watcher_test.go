@@ -21,8 +21,8 @@ import (
 	"context"
 	"time"
 
-	awiv1 "awi.cisco.awi/api/v1"
-	"awi.cisco.awi/client"
+	awiv1alpha1 "app-net-interface.io/kube-awi/api/awi/v1alpha1"
+	"app-net-interface.io/kube-awi/client"
 	awi "github.com/app-net-interface/awi-grpc/pb"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -49,8 +49,8 @@ var _ = Describe("Status watcher", func() {
 			// Create a new Connection object
 			connLookupKey := types.NamespacedName{Name: name, Namespace: namespace}
 			ctx := context.Background()
-			connSvc := &awiv1.InterNetworkDomain{
-				TypeMeta:   metav1.TypeMeta{APIVersion: "awi.cisco.awi/v1", Kind: "InterNetworkDomain"},
+			connSvc := &awiv1alpha1.InterNetworkDomain{
+				TypeMeta:   metav1.TypeMeta{APIVersion: "awi.app-net-interface.io/v1alpha1", Kind: "InterNetworkDomain"},
 				ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: namespace},
 				Spec: awi.ConnectionRequest{
 					Metadata: &awi.ConnectionMetadata{},
@@ -113,7 +113,7 @@ var _ = Describe("Status watcher", func() {
 			go WatchStatusUpdates(ctxWithCancel, awiClient, k8sClient, time.Millisecond*100)
 
 			Eventually(func() bool {
-				connObj := &awiv1.InterNetworkDomain{}
+				connObj := &awiv1alpha1.InterNetworkDomain{}
 				err := k8sClient.Get(ctx, connLookupKey, connObj)
 				if err == nil && connObj.Status.ConnectionId == "vpc-111:10" &&
 					connObj.Status.State == "SUCCESS" {
@@ -138,7 +138,7 @@ var _ = Describe("Status watcher", func() {
 			}, nil)
 			awiClient.ConnectionControllerClient = mockConnectionController
 			Eventually(func() bool {
-				connObj := &awiv1.InterNetworkDomain{}
+				connObj := &awiv1alpha1.InterNetworkDomain{}
 				err := k8sClient.Get(ctx, connLookupKey, connObj)
 				if err == nil && connObj.Status.ConnectionId == "vpc-111:10" &&
 					connObj.Status.State == "FAILED" {
@@ -156,10 +156,10 @@ var _ = Describe("Status watcher", func() {
 			clusterCconnectionId := "vpc-111:10"
 			connLookupKey := types.NamespacedName{Name: name, Namespace: namespace}
 			ctx := context.Background()
-			appConn := &awiv1.InterNetworkDomainAppConnection{
-				TypeMeta:   metav1.TypeMeta{APIVersion: "awi.cisco.awi/v1", Kind: "InterNetworkDomainAppConnection"},
+			appConn := &awiv1alpha1.InterNetworkDomainAppConnection{
+				TypeMeta:   metav1.TypeMeta{APIVersion: "awi.app-net-interface.io/v1alpha1", Kind: "InterNetworkDomainAppConnection"},
 				ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: namespace},
-				Spec: awiv1.AppConnectionSpec{
+				Spec: awiv1alpha1.AppConnectionSpec{
 
 					AppConnection: awi.AppConnection{
 						Metadata: &awi.AppMetadata{
@@ -256,7 +256,7 @@ var _ = Describe("Status watcher", func() {
 			go WatchStatusUpdates(ctxWithCancel, awiClient, k8sClient, time.Millisecond*100)
 
 			Eventually(func() bool {
-				connObj := &awiv1.InterNetworkDomainAppConnection{}
+				connObj := &awiv1alpha1.InterNetworkDomainAppConnection{}
 				err := k8sClient.Get(ctx, connLookupKey, connObj)
 				if err == nil && connObj.Status == "SUCCESS" {
 					return true
@@ -303,7 +303,7 @@ var _ = Describe("Status watcher", func() {
 			}, nil)
 			awiClient.AppConnectionControllerClient = mockAppConnectionController
 			Eventually(func() bool {
-				connObj := &awiv1.InterNetworkDomainAppConnection{}
+				connObj := &awiv1alpha1.InterNetworkDomainAppConnection{}
 				err := k8sClient.Get(ctx, connLookupKey, connObj)
 				if err == nil && connObj.Status == "FAILED" {
 					return true
