@@ -25,6 +25,8 @@ import (
 //+kubebuilder:subresource:status
 
 // Instance is the Schema for the instances API
+// +kubebuilder:printcolumn:name="Visible Name",type="string",JSONPath=".spec.Name",description="The name of the Instance"
+// +kubebuilder:printcolumn:name="State",type="string",JSONPath=".spec.State",description="The state of the Instance"
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

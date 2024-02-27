@@ -15,7 +15,16 @@ spec:
     singular: instance
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - description: The name of the Instance
+      jsonPath: .spec.Name
+      name: Visible Name
+      type: string
+    - description: The state of the Instance
+      jsonPath: .spec.State
+      name: State
+      type: string
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: Instance is the Schema for the instances API
