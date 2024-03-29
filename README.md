@@ -31,7 +31,7 @@ They can be grouped into two use cases
 
     For instance, applying the following `internetworkdomain.yaml` manifest
 
-    ```
+    ```yaml
     apiVersion: awi.app-net-interface.io/v1alpha1
     kind: InterNetworkDomain
     metadata:
@@ -41,21 +41,21 @@ They can be grouped into two use cases
         name: example-name
     spec:
         destination:
-        metadata:
-            name: machine-learning-training
-            description: "Description of the destination"
-        networkDomain:
-            selector:
-            matchId:
-                id: vpc-097e8ed349c13c004
+            metadata:
+                name: machine-learning-training
+                description: "Description of the destination"
+            networkDomain:
+                selector:
+                matchId:
+                    id: vpc-097e8ed349c13c004
         source:
-        metadata:
-            name: machine-learning-dataset
-            description: "Description of the source"
-        networkDomain:
-            selector:
-            matchId:
-                id: vpc-04a1eaad3aa81310f
+            metadata:
+                name: machine-learning-dataset
+                description: "Description of the source"
+            networkDomain:
+                selector:
+                matchId:
+                    id: vpc-04a1eaad3aa81310f
     ```
 
     will create a request to create Network Domain Connection
@@ -71,7 +71,8 @@ They can be grouped into two use cases
     To check the list of instances, simply run
 
     ```
-    kubectl get instances -A
+    // Get all instances
+    kubectl get instance -A 
     ```
 
     and the kubectl will return a list of obtained instances from
@@ -81,7 +82,7 @@ They can be grouped into two use cases
     To get details of a certain instance run
 
     ```
-    kubectl get instances INSTANCE_ID -n awi-system -o yaml
+    kubectl get instance INSTANCE_ID -n awi-system -o yaml
     ```
 
     to see the details of the resource.
@@ -144,7 +145,7 @@ Currently, we do not make much use of the status field, but it could be
 used for storing information about whether connection succeeded or not,
 what was the error etc.
 
-### Synchronisers
+### Synchronizers
 
 Kube-awi operator runs a syncing goroutine which periodically calls
 awi-grpc-catalyst-sdwan to obtain resources from the AWI. Later, it
