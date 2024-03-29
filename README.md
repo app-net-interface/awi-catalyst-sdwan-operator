@@ -1,18 +1,208 @@
 # kube-awi
 Cisco k8s operator and controller implementation for Application WAN Interface (AWI)
 
+The kube-awi allows using k8s custom resources to interact with AWI project.
+
+## Overview
+
+With kube-awi installed on the k8s cluster, the following actions can be done:
+
+* creating requests to awi with `kubectl apply`
+* getting information about instances, network domains etc. with `kubectl get`
+
+Installation of kube-awi on the k8s cluster involves creating Custom Resource
+Definitions, namely:
+
+* instances.awi.app-net-interface.io
+* internetworkdomainappconnections.awi.app-net-interface.io
+* internetworkdomains.awi.app-net-interface.io
+* networkdomains.awi.app-net-interface.io
+* sites.awi.app-net-interface.io
+* subnets.awi.app-net-interface.io
+* vpcs.awi.app-net-interface.io
+* vpns.awi.app-net-interface.io
+
+They can be grouped into two use cases
+
+1. Interacting with the awi
+
+    Resources `internetworkdomains` and `internetworkdomainappconnections` are
+    a way of creating requests to AWI system.
+
+    For instance, applying the following `internetworkdomain.yaml` manifest
+
+    ```
+    apiVersion: awi.app-net-interface.io/v1alpha1
+    kind: InterNetworkDomain
+    metadata:
+    name: my-internetworkdomain
+    spec:
+    metadata:
+        name: example-name
+    spec:
+        destination:
+        metadata:
+            name: machine-learning-training
+            description: "Description of the destination"
+        networkDomain:
+            selector:
+            matchId:
+                id: vpc-097e8ed349c13c004
+        source:
+        metadata:
+            name: machine-learning-dataset
+            description: "Description of the source"
+        networkDomain:
+            selector:
+            matchId:
+                id: vpc-04a1eaad3aa81310f
+    ```
+
+    will create a request to create Network Domain Connection
+    between Source VPC `vpc-097e8ed349c13c004` and Destination
+    VPC ` vpc-04a1eaad3aa81310f`.
+
+1. Checking existing VPCs, Instances, Subnets etc.
+
+    Resources `instance`, `network_domain`, `site`, `subnet`, `vpc`
+    and `vpn` represent resources that can be inspected using either
+    AWI UI or AWI CLI.
+
+    To check the list of instances, simply run
+
+    ```
+    kubectl get instances -A
+    ```
+
+    and the kubectl will return a list of obtained instances from
+    supported providers (AWS and GCP) just like getting list of
+    `pods`, `deployments` etc.
+
+    To get details of a certain instance run
+
+    ```
+    kubectl get instances INSTANCE_ID -n awi-system -o yaml
+    ```
+
+    to see the details of the resource.
+
+## Under the hood
+
+Both use cases described above are available thanks to the k8s
+operator.
+
+Installation of the kube-awi on the k8s creates a special deployment
+called `kube-awi-controller-manager` which acts as a special process
+that will:
+
+* watch for updates of `internetworkdomains` and
+    `internetworkdomainappconnections` custom resources and triggers
+    actions defined in `controllers/RESOUCE_controller.go`
+
+* synchronizes other resources by periodically obtaining lists of
+    subnets, instances etc. from `awi-grpc-catalyst-sdwan` and
+    creating custom resources inside the cluster
+
+### Controllers
+
+Watching for updates and triggering certain actions is accomplished
+with so called controllers. To generate a controller go to
+[Adding new object](#adding-new-object).
+
+A Controller specifies `Reconcile` method will is triggered whenever
+there is an update of the certain Custom Resource. This method will
+be called whenever a resource is created/updated/deleted.
+
+Currently, kube-awi defines both resources in the following manner:
+
+* removing Custom Resource using `kubectl delete` triggers deletion
+    of VPC Connection or App Connection
+
+* other events trigger Connection Creation attempt.
+
+#### K8s data
+
+Custom Resources specify two important sections:
+
+1. Spec - the desired configuration for a resource
+
+    Spec section is a user's input space. It accepts information about
+    desired settings and the Reconciler's job is to attempt accomplishing
+    them.
+
+1. Status - the actual state of the object
+
+    Status is a read-only information for the user about actual state of
+    the resource. While state specifies the desired state, which may not
+    be accomplished yet, impossible to accomplish or be a high-level
+    definition of certain settings, the status section is updated by the
+    reconciler and it is supposed to provide information about the present
+    state and underlying low-level information that may be necessary for
+    the user.
+
+Currently, we do not make much use of the status field, but it could be
+used for storing information about whether connection succeeded or not,
+what was the error etc.
+
+### Synchronisers
+
+Kube-awi operator runs a syncing goroutine which periodically calls
+awi-grpc-catalyst-sdwan to obtain resources from the AWI. Later, it
+creates or updates Custom Resources associated with these resources.
+
+Since these are read-only resources, they have no Controllers assigned
+to them, as the operator does not care about user's changes there.
+
+Since these resources are updated by the periodic sync operation, they
+are eventually consistent.
+
 ## Development
 
+The kube-awi uses kubebuilder framework for automatic creation of:
+* Custom Resource Definitions
+* Operator's code for UPDATE actions
+
+The input for both is a go file `api/GROUP/VERSION/NAME_types.go`.
+
+It specifies the structure of the resource and relevant fields.
+The resouce can be marked with additional kubebuilder options to
+customize the structure and its interactions (for example additional
+columns present when running `kubectl get instances -A`)
+
 ### Adding new object
-- run `kubebuilder create api --group awi --version v1 --kind <NewObjectName>` to create base structure,
-- update object spec and controller logic,
-- execute steps from [Updating object](#Updating object) section.
+
+To create a new kind such as `instance` or `network_domain`, run kubebuilder
+command to initiate a new object
+
+```
+kubebuilder create api --group awi --version v1alpha1 --kind <NewObjectName>
+```
+
+This will generate a new file in the directory `api/awi/v1alpha1/KIND_types.go`
+with placeholder golang structures for both structure itself and a list
+wrapper.
+
+The CLI will ask if it should generate a controller for the resource. Replying
+`yes` will add a note in the `PROJECT` file `controller: true`. This can be
+changed manually later on.
+
+To generate CRDs and operator code follow steps below.
 
 ### Updating object
-Run:
-- `go get github.com/app-net-interface/awi-grpc@develop` to pull latest changes in specifications,
-- `make manifests` to generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects,
-- `make generate` to generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations.
+
+To generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects run
+
+```
+make manifests
+```
+
+To generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations:
+
+```
+make generate
+```
+
+Make sure to use up-to-date version of awi-grpc repository.
 
 ### Installing objects
 Run:
@@ -26,19 +216,6 @@ Run:
 - (if you use kind cluster) `CLUSTER_NAME=<your-cluster-name> make kind-load`,
 - (if you use remote cluster) `make docker-push`,
 - `make deploy` to update image in cluster controller deployment.
-
-## Contributing
-
-Thank you for interest in contributing! Please refer to our
-[contributing guide](CONTRIBUTING.md).
-
-## License
-
-kube-awi is released under the Apache 2.0 license. See
-[LICENSE](./LICENSE).
-
-kube-awi is also made possible thanks to
-[third party open source projects](NOTICE).
 
 ## Running with minikube
 
@@ -178,3 +355,16 @@ After your minikube cluster is no longer needed, you can remove it by running:
 ```
 minikube delete
 ```
+
+## Contributing
+
+Thank you for interest in contributing! Please refer to our
+[contributing guide](CONTRIBUTING.md).
+
+## License
+
+kube-awi is released under the Apache 2.0 license. See
+[LICENSE](./LICENSE).
+
+kube-awi is also made possible thanks to
+[third party open source projects](NOTICE).
