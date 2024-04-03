@@ -92,8 +92,10 @@ They can be grouped into two use cases
 Both use cases described above are available thanks to the k8s
 operator.
 
+![Image of Kube AWI](docs/kube-awi.png)
+
 Installation of the kube-awi on the k8s creates a special deployment
-called `kube-awi-controller-manager` which acts as a special process
+called `kube-awi-controller-manager` (kube-awi operator in the graph) which acts as a special process
 that will:
 
 * watch for updates of `internetworkdomains` and
@@ -103,6 +105,15 @@ that will:
 * synchronizes other resources by periodically obtaining lists of
     subnets, instances etc. from `awi-grpc-catalyst-sdwan` and
     creating custom resources inside the cluster
+
+The Kube-AWI operator consists of so called controllers, that define
+methods to be triggered for certain events, syncer which is a simple
+goroutine and awi client which implements necessary interfaces and
+specifies an address of the actual server from which the information
+will be received and where connection requests will be forwarded.
+
+The Kube-AWI operator also includes standard k8s operator manager
+responsible for health checks and other useful resources.
 
 ### Controllers
 
@@ -217,6 +228,43 @@ Run:
 - (if you use kind cluster) `CLUSTER_NAME=<your-cluster-name> make kind-load`,
 - (if you use remote cluster) `make docker-push`,
 - `make deploy` to update image in cluster controller deployment.
+
+## Extending Kube-AWI
+
+Currently, the kube-awi project gathers the entire logic in the
+`main.go` file which is an entry point for the k8s operator. This
+file instantiates k8s operator manager, initializes kube awi client,
+registers existing reconcilers and runs syncing goroutine.
+
+To make kube-awi more opened for other possible controllers, the
+main file requires some design decisions over how different
+controllers should be implemented.
+
+1. The kube-awi embeds all 3 GRPC interfaces (connection, app connection and cloud clients)
+    into single client with a configurable address. It means that current implementation
+    prevents user from specifying a different address for cloud interface responsible for
+    obtaining information about existing subnets etc. and for connection/app connection
+    clients.
+
+    It means that a new controller need to implement the entire logic - if we want to
+    write a new controller which defines new logic for connections or app connections
+    but we want to remain cloud connectivity from old controller, we would have to
+    make our new controller forward cloud requests to the old one.
+
+1. Connection and App Connection interfaces are explicitely loaded in the `main.go`
+    file. If a new controller requires a different reconciling action, a new provider
+    should be specified. Considering a scenario where all controller versions are
+    specified inside kube-awi repository, the `main.go` file should be changed to
+    dynamically load desired controllers based on the provided configuration.
+
+1. Syncer goroutine is quite specific to awi project and the user may wish to use
+    different implementation, use different CRDs for that or to not use syncer at
+    all. This topic leads to a further design discussion around making kube-awi
+    a library.
+
+The project graph above shows the existing dependencies and potential points of
+providing an abstraction over pieces of code that can be turned into customizable
+modules.
 
 ## Running with minikube
 
