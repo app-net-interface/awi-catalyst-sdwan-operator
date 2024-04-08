@@ -2,8 +2,6 @@ module app-net-interface.io/kube-awi
 
 go 1.21
 
-toolchain go1.22.0
-
 require (
 	github.com/app-net-interface/awi-grpc v0.0.0-20240220170130-bdf57329cf72
 	github.com/go-logr/logr v1.4.1
