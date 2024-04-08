@@ -18,17 +18,18 @@
 package sync
 
 import (
-	awi_cl "awi.cisco.awi/client"
 	"context"
 	"fmt"
+	"time"
+
+	awi_cl "app-net-interface.io/kube-awi/client"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	k8s_cl "sigs.k8s.io/controller-runtime/pkg/client"
-	"time"
 )
 
 // TODO make configurable
-var SupportedClouds = []string{"AWS"}
+var SupportedClouds = []string{"AWS", "GCP"}
 
 const Namespace = "awi-system"
 

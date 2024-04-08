@@ -19,21 +19,19 @@
 # since it depends on service name and namespace that are out of this kustomize package.
 # It should be run by config/default
 resources:
-- bases/awi.cisco.awi_serviceconnections.yaml
-- bases/awi.cisco.awi_internetworkdomains.yaml
-- bases/awi.cisco.awi_networkdomains.yaml
-- bases/awi.cisco.awi_instances.yaml
-- bases/awi.cisco.awi_sites.yaml
-- bases/awi.cisco.awi_subnets.yaml
-- bases/awi.cisco.awi_vpcs.yaml
-- bases/awi.cisco.awi_vpns.yaml
-- bases/awi.cisco.awi_internetworkdomainappconnections.yaml
+- bases/awi.app-net-interface.io_internetworkdomains.yaml
+- bases/awi.app-net-interface.io_networkdomains.yaml
+- bases/awi.app-net-interface.io_instances.yaml
+- bases/awi.app-net-interface.io_sites.yaml
+- bases/awi.app-net-interface.io_subnets.yaml
+- bases/awi.app-net-interface.io_vpcs.yaml
+- bases/awi.app-net-interface.io_vpns.yaml
+- bases/awi.app-net-interface.io_internetworkdomainappconnections.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 patchesStrategicMerge:
 # [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix.
 # patches here are for enabling the conversion webhook for each CRD
-#- patches/webhook_in_serviceconnections.yaml
 #- patches/webhook_in_internetworkdomains.yaml
 #- patches/webhook_in_networkdomains.yaml
 #- patches/webhook_in_instances.yaml
@@ -46,7 +44,6 @@ patchesStrategicMerge:
 
 # [CERTMANAGER] To enable cert-manager, uncomment all the sections with [CERTMANAGER] prefix.
 # patches here are for enabling the CA injection for each CRD
-#- patches/cainjection_in_serviceconnections.yaml
 #- patches/cainjection_in_internetworkdomains.yaml
 #- patches/cainjection_in_networkdomains.yaml
 #- patches/cainjection_in_instances.yaml

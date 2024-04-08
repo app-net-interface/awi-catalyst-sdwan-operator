@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
 	awi "github.com/app-net-interface/awi-grpc/pb"
@@ -24,23 +24,23 @@ import (
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// Instance is the Schema for the instances API
-type Instance struct {
+// Subnet is the Schema for the subnets API
+type Subnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec awi.Instance `json:"spec,omitempty"`
+	Spec awi.Subnet `json:"spec,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// InstanceList contains a list of Instance
-type InstanceList struct {
+// SubnetList contains a list of Subnet
+type SubnetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Instance `json:"items"`
+	Items           []Subnet `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Instance{}, &InstanceList{})
+	SchemeBuilder.Register(&Subnet{}, &SubnetList{})
 }

@@ -1,0 +1,96 @@
+<mxfile host="Electron" modified="2024-04-03T14:37:59.193Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.3 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="uYyju4AXc1c1wu44q4wn" version="22.0.3" type="device">
+  <diagram name="Page-1" id="Ln-I1z0okCZXHUxbZ0d1">
+    <mxGraphModel dx="1389" dy="577" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="RHibBUCHdRn1Rr8qklj--31" value="AWI GRPC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;opacity=40;horizontal=1;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="325" y="520" width="430" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--20" value="KUBE-AWI operator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;opacity=40;horizontal=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="200" y="130" width="360" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--15" value="Kubebuilder&lt;br&gt;Controllers" style="rounded=1;whiteSpace=wrap;html=1;opacity=40;fillColor=#0050ef;strokeColor=#001DBC;verticalAlign=top;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="217.5" y="180" width="165" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=block;endFill=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--9" target="RHibBUCHdRn1Rr8qklj--2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="530" />
+              <mxPoint x="650" y="530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=block;endFill=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--9" target="RHibBUCHdRn1Rr8qklj--3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="530" />
+              <mxPoint x="430" y="530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--30" value="GRPC&lt;br&gt;Call" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--9" target="RHibBUCHdRn1Rr8qklj--6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="300.2413793103449" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--9" value="AWI&lt;br&gt;Client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="480" y="272.5" width="80" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--1" value="GRPC&lt;br&gt;CloudClient&lt;br&gt;Interface" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="480" y="620" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--2" value="GRPC&lt;br&gt;ConnectionControllerClient&lt;br&gt;Interface" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="560" y="550" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--3" value="GRPC&lt;br&gt;AppConnectionControllerClient&lt;br&gt;Interface" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="340" y="550" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--25" value="List&lt;br&gt;VPC/Instance/Subnet..." style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--4" target="RHibBUCHdRn1Rr8qklj--9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="440" />
+              <mxPoint x="460" y="314" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--4" value="SYNCER" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="240" y="420" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--6" value="awi grpc&lt;br&gt;catalyst sdwan" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="260" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--23" value="Connect&lt;br&gt;Request" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--8" target="RHibBUCHdRn1Rr8qklj--9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--8" value="Connection&lt;br&gt;Reconciler" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="240" y="240" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--24" value="AppConnect&lt;br&gt;Request" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--10" target="RHibBUCHdRn1Rr8qklj--9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--10" value="App Connection&lt;br&gt;Reconciler" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="240" y="320" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--14" value="K8s&lt;br&gt;Events" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="-60" y="260" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--18" value="watch crd events&lt;br&gt;internetworkdomain" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.797;entryY=0.128;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--8" target="RHibBUCHdRn1Rr8qklj--14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--19" value="watch crd events&lt;br&gt;internetworkdomainappconnection" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.922;entryY=0.753;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--10" target="RHibBUCHdRn1Rr8qklj--14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--21" value="K8s&lt;br&gt;ETCD" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--22" value="Create CR&lt;br&gt;* instance&lt;br&gt;* vpc&lt;br&gt;* subnet&lt;br&gt;etc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--4" target="RHibBUCHdRn1Rr8qklj--21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RHibBUCHdRn1Rr8qklj--26" value="Implements" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=block;endFill=0;" edge="1" parent="1" source="RHibBUCHdRn1Rr8qklj--9" target="RHibBUCHdRn1Rr8qklj--1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

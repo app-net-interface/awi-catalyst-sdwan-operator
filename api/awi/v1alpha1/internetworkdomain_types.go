@@ -14,33 +14,40 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
-	awi "github.com/app-net-interface/awi-grpc/pb"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	awi "github.com/app-net-interface/awi-grpc/pb"
 )
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// VPC is the Schema for the vpcs API
-type VPC struct {
+// InterNetworkDomain is the Schema for the internetworkdomains API
+type InterNetworkDomain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec awi.VPC `json:"spec,omitempty"`
+	Spec   awi.ConnectionRequest    `json:"spec,omitempty"`
+	Status InterNetworkDomainStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// VPCList contains a list of VPC
-type VPCList struct {
+// InterNetworkDomainList contains a list of InterNetworkDomain
+type InterNetworkDomainList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VPC `json:"items"`
+	Items           []InterNetworkDomain `json:"items"`
+}
+
+type InterNetworkDomainStatus struct {
+	State        string `json:"state,omitempty"`
+	ConnectionId string `json:"connection_id,omitempty"`
 }
 
 func init() {
-	SchemeBuilder.Register(&VPC{}, &VPCList{})
+	SchemeBuilder.Register(&InterNetworkDomain{}, &InterNetworkDomainList{})
 }

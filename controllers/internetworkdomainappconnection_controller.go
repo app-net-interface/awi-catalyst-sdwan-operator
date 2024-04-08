@@ -28,8 +28,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
-	awiv1 "awi.cisco.awi/api/v1"
-	awiClient "awi.cisco.awi/client"
+	awiv1alpha1 "app-net-interface.io/kube-awi/api/awi/v1alpha1"
+	awiClient "app-net-interface.io/kube-awi/client"
 	awipb "github.com/app-net-interface/awi-grpc/pb"
 )
 
@@ -41,16 +41,16 @@ type AppConnectionReconciler struct {
 	ClusterName string
 }
 
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=internetworkdomainappconnections,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=internetworkdomainappconnections/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=awi.cisco.awi,resources=internetworkdomainappconnections/finalizers,verbs=update
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomainappconnections,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomainappconnections/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomainappconnections/finalizers,verbs=update
 
 func (r *AppConnectionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger := log.FromContext(ctx)
 	logger.Info("Request received", "req:", req.String())
 	logger.Info("Reconciler called")
 
-	var conn awiv1.InterNetworkDomainAppConnection
+	var conn awiv1alpha1.InterNetworkDomainAppConnection
 
 	if err := r.Get(ctx, req.NamespacedName, &conn); err != nil {
 		logger.Error(err, "unable to fetch InterNetworkDomainAppConnection object", "namespace:", req.Namespace, "name:", req.Name)
@@ -61,7 +61,7 @@ func (r *AppConnectionReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	// name of our custom finalizer
-	myFinalizerName := "internetworkdomainappconnection.awi.cisco.awi/finalizer"
+	myFinalizerName := "internetworkdomainappconnection.awi.app-net-interface.io/finalizer"
 
 	// examine DeletionTimestamp to determine if object is under deletion
 	if conn.ObjectMeta.DeletionTimestamp.IsZero() {
@@ -115,7 +115,7 @@ func (r *AppConnectionReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 // SetupWithManager sets up the controller with the Manager.
 func (r *AppConnectionReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&awiv1.InterNetworkDomainAppConnection{}).
+		For(&awiv1alpha1.InterNetworkDomainAppConnection{}).
 		WithEventFilter(predicate.Funcs{
 			UpdateFunc: func(e event.UpdateEvent) bool {
 				// update of app connection is not supported, so we ignore all update events
@@ -131,6 +131,6 @@ func (r *AppConnectionReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *AppConnectionReconciler) removeAppConnection(conn *awiv1.InterNetworkDomainAppConnection) error {
+func (r *AppConnectionReconciler) removeAppConnection(conn *awiv1alpha1.InterNetworkDomainAppConnection) error {
 	return r.AwiClient.AppDisconnectRequest(&conn.Spec.AppConnection)
 }

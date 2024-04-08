@@ -14,38 +14,34 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
-	awi "github.com/app-net-interface/awi-grpc/pb"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	awi "github.com/app-net-interface/awi-grpc/pb"
 )
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// InterNetworkDomainAppConnection is the Schema for the appconnections API
-type InterNetworkDomainAppConnection struct {
+// NetworkDomain is the Schema for the networkdomains API
+type NetworkDomain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AppConnectionSpec `json:"spec,omitempty"`
-	Status string            `json:"status,omitempty"`
-}
-
-type AppConnectionSpec struct {
-	AppConnection awi.AppConnection `json:"appConnection,omitempty"`
+	Spec awi.NetworkDomainObject `json:"spec,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// InterNetworkDomainAppConnectionList contains a list of InterNetworkDomainAppConnection
-type InterNetworkDomainAppConnectionList struct {
+// NetworkDomainList contains a list of NetworkDomain
+type NetworkDomainList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []InterNetworkDomainAppConnection `json:"items"`
+	Items           []NetworkDomain `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&InterNetworkDomainAppConnection{}, &InterNetworkDomainAppConnectionList{})
+	SchemeBuilder.Register(&NetworkDomain{}, &NetworkDomainList{})
 }

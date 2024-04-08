@@ -43,7 +43,7 @@ import (
 	"google.golang.org/grpc"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	awiv1 "awi.cisco.awi/api/v1"
+	awiv1alpha1 "app-net-interface.io/kube-awi/api/awi/v1alpha1"
 	awiMock "github.com/app-net-interface/awi-grpc/mocks"
 	awi "github.com/app-net-interface/awi-grpc/pb"
 )
@@ -100,8 +100,8 @@ var _ = Describe("InternNetworkDomain Controller", func() {
 			}).
 			Return(&awi.ConnectionResponse{}, nil)
 
-		connSvc := &awiv1.InterNetworkDomain{
-			TypeMeta:   metav1.TypeMeta{APIVersion: "awi.cisco.awi/v1", Kind: "InterNetworkDomain"},
+		connSvc := &awiv1alpha1.InterNetworkDomain{
+			TypeMeta:   metav1.TypeMeta{APIVersion: "awi.app-net-interface.io/v1alpha1", Kind: "InterNetworkDomain"},
 			ObjectMeta: metav1.ObjectMeta{Name: internetworkdomainName, Namespace: namespace},
 			Spec:       *connectionRequestSpec,
 		}

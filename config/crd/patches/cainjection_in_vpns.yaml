@@ -21,4 +21,4 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
-  name: vpns.awi.cisco.awi
+  name: vpns.awi.app-net-interface.io

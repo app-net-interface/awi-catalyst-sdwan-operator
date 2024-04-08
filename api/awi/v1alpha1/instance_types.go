@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
 	awi "github.com/app-net-interface/awi-grpc/pb"
@@ -24,23 +24,25 @@ import (
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// VPN is the Schema for the vpns API
-type VPN struct {
+// Instance is the Schema for the instances API
+// +kubebuilder:printcolumn:name="Visible Name",type="string",JSONPath=".spec.Name",description="The name of the Instance"
+// +kubebuilder:printcolumn:name="State",type="string",JSONPath=".spec.State",description="The state of the Instance"
+type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec awi.VPN `json:"spec,omitempty"`
+	Spec awi.Instance `json:"spec,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// VPNList contains a list of VPN
-type VPNList struct {
+// InstanceList contains a list of Instance
+type InstanceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VPN `json:"items"`
+	Items           []Instance `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&VPN{}, &VPNList{})
+	SchemeBuilder.Register(&Instance{}, &InstanceList{})
 }

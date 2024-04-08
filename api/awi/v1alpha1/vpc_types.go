@@ -14,34 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	awi "github.com/app-net-interface/awi-grpc/pb"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// NetworkDomain is the Schema for the networkdomains API
-type NetworkDomain struct {
+// VPC is the Schema for the vpcs API
+type VPC struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec awi.NetworkDomainObject `json:"spec,omitempty"`
+	Spec awi.VPC `json:"spec,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// NetworkDomainList contains a list of NetworkDomain
-type NetworkDomainList struct {
+// VPCList contains a list of VPC
+type VPCList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []NetworkDomain `json:"items"`
+	Items           []VPC `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&NetworkDomain{}, &NetworkDomainList{})
+	SchemeBuilder.Register(&VPC{}, &VPCList{})
 }

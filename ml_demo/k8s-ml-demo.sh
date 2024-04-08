@@ -288,7 +288,7 @@ read -p ""
 read -p "A cloudOps admin can now use Kubectl to provision connectivity between VPCs.
 For that they need to provision an AWI inter-network-domain YAML file (CRD) to establish connectivity between VPCs. Let’s see this file."
 pe "cat config/samples/internetworkdomain_vpc_mltraining_to_vpc_mldataset.yaml"
-# apiVersion: awi.cisco.awi/v1
+# apiVersion: awi.app-net-interface.io/v1alpha1
 #kind: InterNetworkDomain
 #metadata:
 #  name: mltraining-to-mldataset
@@ -326,7 +326,7 @@ clear
 read -p "To enable pod to service connectivity we will create AppConnection CRD object, let's see how it looks"
 pe "cat config/samples/appconnection_mltraining_to_mldataset.yaml"
 #$ cat config/samples/appconnection_mltraining_to_mldataset.yaml
- #apiVersion: awi.cisco.awi/v1
+ #apiVersion: awi.app-net-interface.io/v1alpha1
  #kind: AppConnection
  #metadata:
  #  name: ml-training-app-to-ml-dataset
@@ -353,15 +353,15 @@ pe "kubectl apply -f config/samples/appconnection_mltraining_to_mldataset.yaml"
 read -p ""
 read -p "After successful connection status of created CRD should be updated"
 pe "kubectl get appconnections ml-training-app-to-ml-dataset -o yaml"
-  #apiVersion: awi.cisco.awi/v1
+  #apiVersion: awi.app-net-interface.io/v1alpha1
   #kind: AppConnection
   #metadata:
   #  annotations:
   #    kubectl.kubernetes.io/last-applied-configuration: |
-  #      {"apiVersion":"awi.cisco.awi/v1","kind":"AppConnection","metadata":{"annotations":{},"name":"ml-training-app-to-ml-dataset","namespace":"default"},"spec":{"cluster_connection_reference":"vpc-089e44ee0ab01c252:vpc-0acb0f4c655cd5dd9","destination":{"kind":{"service":{"metadata":{"name":"ml-dataset-cluster:ml-dataset:ml-dataset-service"}}}},"name":"Connection from ML training app pods to ML dataset service","source":{"kind":{"endpoint":{"metadata":{"labels":{"app":"ml-training-app"},"name":"ML Training Cluster App"}}}}}}
+  #      {"apiVersion":"awi.app-net-interface.io/v1alpha1","kind":"AppConnection","metadata":{"annotations":{},"name":"ml-training-app-to-ml-dataset","namespace":"default"},"spec":{"cluster_connection_reference":"vpc-089e44ee0ab01c252:vpc-0acb0f4c655cd5dd9","destination":{"kind":{"service":{"metadata":{"name":"ml-dataset-cluster:ml-dataset:ml-dataset-service"}}}},"name":"Connection from ML training app pods to ML dataset service","source":{"kind":{"endpoint":{"metadata":{"labels":{"app":"ml-training-app"},"name":"ML Training Cluster App"}}}}}}
   #  creationTimestamp: "2023-02-24T12:47:58Z"
   #  finalizers:
-  #  - appconnection.awi.cisco.awi/finalizer
+  #  - appconnection.awi.app-net-interface.io/finalizer
   #  generation: 1
   #  name: ml-training-app-to-ml-dataset
   #  namespace: default
@@ -434,7 +434,7 @@ clear
 read -p "To disable connection we just need to remove CRD objects"
 pe "kubectl delete -f config/samples/appconnection_mltraining_to_mldataset.yaml"
 # $ kubectl delete -f config/samples/appconnection_mltraining_to_mldataset.yaml
-  #appconnection.awi.cisco.awi "ml-training-app-to-ml-dataset" deleted
+  #appconnection.awi.app-net-interface.io "ml-training-app-to-ml-dataset" deleted
 
 # ml-training-cluster> kubectl exec -ti -n ml-training       ml-training-deployment-5dc695d4dc-nsd9l -- /bin/sh
   #/ $ curl internal-a07091c66834a4587bc73f7e5ddc8f38-417755801.us-west-2.elb.amazonaws.com/data

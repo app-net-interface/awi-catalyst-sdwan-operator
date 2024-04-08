@@ -30,11 +30,11 @@ RUN echo "StrictHostKeyChecking no" >> /root/.ssh/config
 
 # Force git to use SSH over HTTPS to avoid password prompt
 RUN apk add git openssh make bash
-RUN git config --global --add url."git@wwwin-github.cisco.com:".insteadOf "https://wwwin-github.cisco.com/"
+RUN git config --global --add url."git@github.com:".insteadOf "https://github.com/"
 
-RUN mkdir -p /root/go/src/wwwin-github.cisco.com/kube-awi
+RUN mkdir -p /root/go/src/github.com/kube-awi
 
-WORKDIR /root/go/src/wwwin-github.cisco.com/kube-awi
+WORKDIR /root/go/src/github.com/kube-awi
 COPY . .
 RUN rm bin/*
 
@@ -43,7 +43,7 @@ RUN make build
 # Second stage: create the runtime image
 FROM alpine:3.18.4
 WORKDIR /
-COPY --from=builder /root/go/src/wwwin-github.cisco.com/kube-awi/bin/manager /manager
+COPY --from=builder /root/go/src/github.com/kube-awi/bin/manager /manager
 
 USER 65532:65532
 ENTRYPOINT ["/manager"]
