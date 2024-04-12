@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: awi.app-net-interface.io/v1alpha1
-kind: InterNetworkDomain
+kind: InterNetworkDomainConnection
 metadata:
   name: awi-clusters-connection
 spec:

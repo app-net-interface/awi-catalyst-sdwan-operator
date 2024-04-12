@@ -19,7 +19,7 @@
 # since it depends on service name and namespace that are out of this kustomize package.
 # It should be run by config/default
 resources:
-- bases/awi.app-net-interface.io_internetworkdomains.yaml
+- bases/awi.app-net-interface.io_internetworkdomainconnections.yaml
 - bases/awi.app-net-interface.io_networkdomains.yaml
 - bases/awi.app-net-interface.io_instances.yaml
 - bases/awi.app-net-interface.io_sites.yaml
@@ -32,7 +32,7 @@ resources:
 patchesStrategicMerge:
 # [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix.
 # patches here are for enabling the conversion webhook for each CRD
-#- patches/webhook_in_internetworkdomains.yaml
+#- patches/webhook_in_internetworkdomainconnections.yaml
 #- patches/webhook_in_networkdomains.yaml
 #- patches/webhook_in_instances.yaml
 #- patches/webhook_in_sites.yaml
@@ -44,7 +44,7 @@ patchesStrategicMerge:
 
 # [CERTMANAGER] To enable cert-manager, uncomment all the sections with [CERTMANAGER] prefix.
 # patches here are for enabling the CA injection for each CRD
-#- patches/cainjection_in_internetworkdomains.yaml
+#- patches/cainjection_in_internetworkdomainconnections.yaml
 #- patches/cainjection_in_networkdomains.yaml
 #- patches/cainjection_in_instances.yaml
 #- patches/cainjection_in_sites.yaml

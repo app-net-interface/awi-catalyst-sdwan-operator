@@ -1,7 +1,7 @@
 apiVersion: awi.app-net-interface.io/v1alpha1
-kind: InterNetworkDomain
+kind: InterNetworkDomainConnection
 metadata:
-  name: my-internetworkdomain
+  name: my-internetworkdomainconnection
 spec:
   metadata:
     name: example-name

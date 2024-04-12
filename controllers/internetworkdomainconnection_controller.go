@@ -31,26 +31,26 @@ import (
 	awiClient "app-net-interface.io/kube-awi/client"
 )
 
-// InterNetworkDomainReconciler reconciles a InterNetworkDomain object
-type InterNetworkDomainReconciler struct {
+// InterNetworkDomainConnectionReconciler reconciles a InterNetworkDomainConnection object
+type InterNetworkDomainConnectionReconciler struct {
 	client.Client
 	Scheme    *runtime.Scheme
 	AwiClient *awiClient.AwiGrpcClient
 }
 
-//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomains,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomains/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomains/finalizers,verbs=update
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomainconnections,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomainconnections/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=awi.app-net-interface.io,resources=internetworkdomainconnections/finalizers,verbs=update
 
-func (r *InterNetworkDomainReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+func (r *InterNetworkDomainConnectionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger := log.FromContext(ctx)
 	logger.Info("Request received", "req:", req.String())
 	logger.Info("Reconciler called")
 
-	var conn awiv1alpha1.InterNetworkDomain
+	var conn awiv1alpha1.InterNetworkDomainConnection
 
 	if err := r.Get(ctx, req.NamespacedName, &conn); err != nil {
-		logger.Error(err, "unable to fetch InterNetworkDomain object", "namespace:", req.Namespace, "name:", req.Name)
+		logger.Error(err, "unable to fetch InterNetworkDomainConnection object", "namespace:", req.Namespace, "name:", req.Name)
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -58,7 +58,7 @@ func (r *InterNetworkDomainReconciler) Reconcile(ctx context.Context, req ctrl.R
 	}
 
 	// name of our custom finalizer
-	myFinalizerName := "internetworkdomain.awi.app-net-interface.io/finalizer"
+	myFinalizerName := "internetworkdomainconnection.awi.app-net-interface.io/finalizer"
 
 	// examine DeletionTimestamp to determine if object is under deletion
 	if conn.ObjectMeta.DeletionTimestamp.IsZero() {
@@ -73,7 +73,7 @@ func (r *InterNetworkDomainReconciler) Reconcile(ctx context.Context, req ctrl.R
 		}
 	} else {
 		// The object is being deleted
-		logger.Info("InterNetworkDomain is being deleted", "namespace", req.Namespace, "name", req.Name)
+		logger.Info("InterNetworkDomainConnection is being deleted", "namespace", req.Namespace, "name", req.Name)
 		if controllerutil.ContainsFinalizer(&conn, myFinalizerName) {
 			// our finalizer is present, so lets handle any external dependency
 			if err := r.removeConnection(&conn); err != nil {
@@ -102,9 +102,9 @@ func (r *InterNetworkDomainReconciler) Reconcile(ctx context.Context, req ctrl.R
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *InterNetworkDomainReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *InterNetworkDomainConnectionReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&awiv1alpha1.InterNetworkDomain{}).
+		For(&awiv1alpha1.InterNetworkDomainConnection{}).
 		WithEventFilter(predicate.Funcs{
 			UpdateFunc: func(e event.UpdateEvent) bool {
 				// update of network domains connection is not supported, so we ignore all update events
@@ -120,7 +120,7 @@ func (r *InterNetworkDomainReconciler) SetupWithManager(mgr ctrl.Manager) error 
 		Complete(r)
 }
 
-func (r *InterNetworkDomainReconciler) removeConnection(conn *awiv1alpha1.InterNetworkDomain) error {
+func (r *InterNetworkDomainConnectionReconciler) removeConnection(conn *awiv1alpha1.InterNetworkDomainConnection) error {
 	// sending disconnect request
 	return r.AwiClient.DisconnectRequest(&conn.Spec)
 }

@@ -4,20 +4,20 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: internetworkdomains.awi.app-net-interface.io
+  name: internetworkdomainconnections.awi.app-net-interface.io
 spec:
   group: awi.app-net-interface.io
   names:
-    kind: InterNetworkDomain
-    listKind: InterNetworkDomainList
-    plural: internetworkdomains
-    singular: internetworkdomain
+    kind: InterNetworkDomainConnection
+    listKind: InterNetworkDomainConnectionList
+    plural: internetworkdomainconnections
+    singular: internetworkdomainconnection
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: InterNetworkDomain is the Schema for the internetworkdomains
+        description: InterNetworkDomainConnection is the Schema for the internetworkdomainConnections
           API
         properties:
           apiVersion:

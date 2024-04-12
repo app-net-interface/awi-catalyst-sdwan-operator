@@ -15,7 +15,7 @@ Definitions, namely:
 
 * instances.awi.app-net-interface.io
 * internetworkdomainappconnections.awi.app-net-interface.io
-* internetworkdomains.awi.app-net-interface.io
+* internetworkdomainconnections.awi.app-net-interface.io
 * networkdomains.awi.app-net-interface.io
 * sites.awi.app-net-interface.io
 * subnets.awi.app-net-interface.io
@@ -26,16 +26,16 @@ They can be grouped into two use cases
 
 1. Interacting with the awi
 
-    Resources `internetworkdomains` and `internetworkdomainappconnections` are
+    Resources `internetworkdomainconnections` and `internetworkdomainappconnections` are
     a way of creating requests to AWI system.
 
-    For instance, applying the following `internetworkdomain.yaml` manifest
+    For instance, applying the following `internetworkdomainconnection.yaml` manifest
 
     ```yaml
     apiVersion: awi.app-net-interface.io/v1alpha1
-    kind: InterNetworkDomain
+    kind: InterNetworkDomainConnection
     metadata:
-    name: my-internetworkdomain
+    name: my-internetworkdomainconnection
     spec:
     metadata:
         name: example-name
@@ -98,7 +98,7 @@ Installation of the kube-awi on the k8s creates a special deployment
 called `kube-awi-controller-manager` (kube-awi operator in the graph) which acts as a special process
 that will:
 
-* watch for updates of `internetworkdomains` and
+* watch for updates of `internetworkdomainconnections` and
     `internetworkdomainappconnections` custom resources and triggers
     actions defined in `controllers/RESOUCE_controller.go`
 
@@ -317,7 +317,7 @@ This should create CRDs and Manager pod in the cluster:
 NAME                                             CREATED AT
 instances.awi.app-net-interface.io                          2024-02-09T04:09:55Z
 internetworkdomainappconnections.awi.app-net-interface.io   2024-02-09T04:09:55Z
-internetworkdomains.awi.app-net-interface.io                2024-02-09T04:09:55Z
+internetworkdomainconnections.awi.app-net-interface.io      2024-02-09T04:09:55Z
 networkdomains.awi.app-net-interface.io                     2024-02-09T04:09:55Z
 sites.awi.app-net-interface.io                              2024-02-09T04:09:55Z
 subnets.awi.app-net-interface.io                            2024-02-09T04:09:55Z
@@ -379,10 +379,10 @@ Of course, the file needs to be modified to match your desired VPCs.
 
 You can now see created connection:
 ```
-> kubectl get internetworkdomains
+> kubectl get internetworkdomainconnections
 ---
-NAME                    AGE
-my-internetworkdomain   42s
+NAME                              AGE
+my-internetworkdomainconnection   42s
 ```
 
 This connection will most likely exist even if the actual connection was not created.
@@ -390,7 +390,7 @@ Check your AWI GRPC Catalyst SDWAN logs to see how the creation went.
 
 To destroy the connection, simply remove the CR:
 ```
-kubectl delete internetworkdomains my-internetworkdomain
+kubectl delete internetworkdomainconnections my-internetworkdomainconnection
 ```
 
 That's it :)

@@ -25,29 +25,29 @@ import (
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// InterNetworkDomain is the Schema for the internetworkdomains API
-type InterNetworkDomain struct {
+// InterNetworkDomainConnection is the Schema for the internetworkdomainConnections API
+type InterNetworkDomainConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   awi.ConnectionRequest    `json:"spec,omitempty"`
-	Status InterNetworkDomainStatus `json:"status,omitempty"`
+	Spec   awi.ConnectionRequest              `json:"spec,omitempty"`
+	Status InterNetworkDomainConnectionStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// InterNetworkDomainList contains a list of InterNetworkDomain
-type InterNetworkDomainList struct {
+// InterNetworkDomainConnectionList contains a list of InterNetworkDomainConnection
+type InterNetworkDomainConnectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []InterNetworkDomain `json:"items"`
+	Items           []InterNetworkDomainConnection `json:"items"`
 }
 
-type InterNetworkDomainStatus struct {
+type InterNetworkDomainConnectionStatus struct {
 	State        string `json:"state,omitempty"`
 	ConnectionId string `json:"connection_id,omitempty"`
 }
 
 func init() {
-	SchemeBuilder.Register(&InterNetworkDomain{}, &InterNetworkDomainList{})
+	SchemeBuilder.Register(&InterNetworkDomainConnection{}, &InterNetworkDomainConnectionList{})
 }

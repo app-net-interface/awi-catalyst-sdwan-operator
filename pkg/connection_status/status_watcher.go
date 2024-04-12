@@ -66,21 +66,21 @@ func checkConnectionsStatuses(awiClient *awiClient.AwiGrpcClient, logger logr.Lo
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
-	var interNetworkDomainList apiv1.InterNetworkDomainList
-	err = k8sClient.List(ctx, &interNetworkDomainList)
+	var interNetworkDomainConnectionList apiv1.InterNetworkDomainConnectionList
+	err = k8sClient.List(ctx, &interNetworkDomainConnectionList)
 	if err != nil {
-		logger.Error(err, "failed to list InterNetworkDomain CRDs")
+		logger.Error(err, "failed to list InterNetworkDomainConnection CRDs")
 		return
 	}
 
-	for _, crd := range interNetworkDomainList.Items {
+	for _, crd := range interNetworkDomainConnectionList.Items {
 		conn, ok := connectionsMap[awiClient.GetConnectionId(&crd.Spec)]
 		if !ok {
 			logger.Error(err, "couldn't find connection matching to CRD",
 				"namespace", crd.GetNamespace(), "name", crd.GetName())
 			continue
 		}
-		logger.Info("Checking status of InterNetworkDomain item",
+		logger.Info("Checking status of InterNetworkDomainConnection item",
 			"namespace", crd.GetNamespace(), "name", crd.GetName(),
 			"CRD current status", crd.Status, "connection status", conn.GetStatus(),
 			"connection string status", awi.Status_name[int32(conn.GetStatus())])
@@ -92,7 +92,7 @@ func checkConnectionsStatuses(awiClient *awiClient.AwiGrpcClient, logger logr.Lo
 		crd.Status.ConnectionId = awiClient.GetConnectionId(&crd.Spec)
 		err = k8sClient.Status().Update(ctx, &crd)
 		if err != nil {
-			logger.Error(err, "couldn't update InterNetworkDomain CRD status",
+			logger.Error(err, "couldn't update InterNetworkDomainConnection CRD status",
 				"namespace", crd.GetNamespace(), "name", crd.GetName(),
 				"status", crd.Status)
 			continue
