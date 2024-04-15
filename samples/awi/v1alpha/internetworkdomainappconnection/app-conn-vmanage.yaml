@@ -16,27 +16,31 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: awi.app-net-interface.io/v1alpha1
-kind: AppConnection
+kind: InterNetworkDomainAppConnection
 metadata:
-  name: appconnection-pod-to-service-sample
+  name: app-connectivity-across-clusters
 spec:
-  name: 'connection-to-sample-app'
-  cluster_connection_reference: 'vpc-089e44ee0ab01c252:vpc-0acb0f4c655cd5dd9'
-  source:
-    kind:
+  appConnection:
+    controller: Cisco vManage
+    metadata:
+      name: stabing-db-to-developement-db-1
+      description: Connect pods,vms, and services across two network domains
+    from:
       endpoint:
-        metadata:
-          name: "Awi Dev Source Cluster"
-          labels:
-            app: "busybox"
-            # awi/xxx can be used to provide additional info about source, they are not part of matchers
-            awi/compute_type: "Kubernetes"
-            awi/compute_id: "awi-src-cluster"
-  destination:
-    kind:
-      service:
-        metadata:
-          name: "service"
-        network_access_control:
-          host: "internal-a0d80264a23e54fe0ae9e8c396605471-376844005.us-west-2.elb.amazonaws.com"
-          policy: "allow"
+        kind: vm
+        selector:
+          matchLabels:
+            app_type: database
+    to:
+      endpoint:
+        kind: vm
+        selector:
+          matchLabels:
+            app_type: database
+    accessPolicy:
+      selector:
+        matchName:
+          name: "access-policy-1"
+    networkDomainConnection:
+      selector:
+        matchName: AWI staging to development

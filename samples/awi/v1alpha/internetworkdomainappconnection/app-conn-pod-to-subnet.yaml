@@ -16,27 +16,27 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: awi.app-net-interface.io/v1alpha1
-kind: AppConnection
+kind: InterNetworkDomainAppConnection
 metadata:
-  name: allow-connection-to-nginx
+  name: app-connectivity-dev-web-to-subnet
 spec:
-  name: 'Access to nginx in kubernetes cluster'
-  cluster_connection_reference: 'vpc-089e44ee0ab01c252:vpc-0acb0f4c655cd5dd9'
-  source:
-    kind:
+  appConnection:
+    from:
+      endpoint:
+        kind: pod
+        selector:
+          matchLabels:
+            environment: "dev"
+            type: "web"
+    to:
       subnet:
-        metadata:
-          name: "AWI Dev cluster"
-        network_access_control:
-          prefixes: [ "192.168.0.0/16" ]
-  destination:
-    kind:
-      subnet:
-        metadata:
-          name: "AWI Cluster"
-        network_access_control:
-          prefixes: ["10.30.0.0/19"]
-          protocol_and_ports:
-            "tcp":
-              ports: [ "30486" ]
-          policy: "allow"
+        selector:
+          matchPrefix:
+            - "10.0.0.0/16"
+    accessPolicy:
+      selector:
+        matchName:
+          name: "access-policy-1"
+    networkDomainConnection:
+      selector:
+        matchName: "vpc-vpc-aws-1"

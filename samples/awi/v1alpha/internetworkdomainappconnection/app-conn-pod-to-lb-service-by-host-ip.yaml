@@ -16,25 +16,31 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: awi.app-net-interface.io/v1alpha1
-kind: AppConnection
+kind: InterNetworkDomainAppConnection
 metadata:
-  name: appconnection-pod-to-service-sample
+  name: pod-to-lb-service
 spec:
-  name: 'connection-to-sample-app'
-  cluster_connection_reference: 'vpc-089e44ee0ab01c252:vpc-0acb0f4c655cd5dd9'
-  source:
-    kind:
+  appConnection:
+    networkDomainConnection:
+      selector:
+        matchName: 5792151095598867388:7353759886839084744
+    metadata:
+      name: ml-training-app-t-ml-dataset-lb-service
+    from:
       endpoint:
-        metadata:
-          name: "Awi Dev Source Cluster"
-          labels:
-            app: "busybox"
-  destination:
-    kind:
+        kind: pod
+        selector:
+          matchCluster:
+            name: gke_gcp-ibngctopoc-nprd-72084_us-west1-a_ml-training-cluster
+          matchLabels:
+            app: ml-training-app
+    to:
       service:
-        metadata:
-          name: "ML dataset service"
-        network_access_control:
-          # alternative to FQDN, format cluster_name:namespace:service_name
-          host: "awi-dest-cluster:eks-sample-app:nlb-sample-service"
-          policy: "allow"
+        kind:
+          k8sService:
+            serviceType: loadBalancer
+        selector:
+          matchCluster:
+            name: gke_gcp-ibngctopoc-nprd-72084_us-east1-b_ml-dataset-cluster
+          matchHost:
+            ip: 10.240.0.4

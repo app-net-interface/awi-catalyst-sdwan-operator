@@ -16,22 +16,28 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: awi.app-net-interface.io/v1alpha1
-kind: ServiceConnection   #ExternalConnection
+kind: InterNetworkDomainAppConnection
 metadata:
-  name: test1
+  name: appconnection-sample
 spec:
-  ServiceInfo: 
-    ServiceType: private #ConnectionType
-    name: MongoDB2 
-    ip: 172.10.10.10
-    port: 8443
-    protocol: tcp 
-  Workload:
-    name: finance-web-app
-    subnet: 10.0.0.0/24 
-  SLA:
-    RequestType: hard   # hard or soft - 
-    bandwidth: 200
-    jitter: 1
-    latency: 10 
-    loss: 1
+  appConnection:
+    networkDomainConnection:
+      selector:
+        matchName: "9153726121637420078:vpc-05cc43b851bf567b1" # or ID: 8528197605643627928:1747121394098482639
+    metadata:
+      name: my-sweet-connection
+      description: Connecting database VMs in staging and development VPCs
+    from:
+      endpoint:
+        selector:
+          matchLabels:
+            app_type: ml-training
+    to:
+      endpoint:
+        selector:
+          matchLabels:
+            app_type: ml-data
+    accessPolicy:
+      selector:
+        matchName:
+          name: "my-policy"

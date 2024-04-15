@@ -1,0 +1,24 @@
+apiVersion: awi.app-net-interface.io/v1alpha1
+kind: InterNetworkDomainConnection
+metadata:
+  name: my-internetworkdomainconnection
+spec:
+  metadata:
+    name: example-name
+  spec:
+    destination:
+      metadata:
+        name: machine-learning-training
+        description: "Description of the destination"
+      networkDomain:
+        selector:
+          matchId:
+            id: vpc-097e8ed349c13c004
+    source:
+      metadata:
+        name: machine-learning-dataset
+        description: "Description of the source"
+      networkDomain:
+        selector:
+          matchId:
+            id: vpc-04a1eaad3aa81310f
