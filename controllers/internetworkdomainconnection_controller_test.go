@@ -51,8 +51,8 @@ import (
 var _ = Describe("InternNetworkDomain Controller", func() {
 	const (
 		//Meta
-		internetworkdomainName = "sample-connection-svc"
-		namespace              = "default"
+		internetworkdomainconnectionName = "sample-connection-svc"
+		namespace                        = "default"
 	)
 
 	It("send should send connection request to grpc server whenever new CRD is created", func() {
@@ -100,9 +100,9 @@ var _ = Describe("InternNetworkDomain Controller", func() {
 			}).
 			Return(&awi.ConnectionResponse{}, nil)
 
-		connSvc := &awiv1alpha1.InterNetworkDomain{
-			TypeMeta:   metav1.TypeMeta{APIVersion: "awi.app-net-interface.io/v1alpha1", Kind: "InterNetworkDomain"},
-			ObjectMeta: metav1.ObjectMeta{Name: internetworkdomainName, Namespace: namespace},
+		connSvc := &awiv1alpha1.InterNetworkDomainConnection{
+			TypeMeta:   metav1.TypeMeta{APIVersion: "awi.app-net-interface.io/v1alpha1", Kind: "InterNetworkDomainConnection"},
+			ObjectMeta: metav1.ObjectMeta{Name: internetworkdomainconnectionName, Namespace: namespace},
 			Spec:       *connectionRequestSpec,
 		}
 		Expect(k8sClient.Create(ctx, connSvc)).Should(Succeed())

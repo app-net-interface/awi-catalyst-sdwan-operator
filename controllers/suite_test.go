@@ -89,7 +89,7 @@ var _ = BeforeSuite(func() {
 	awiTestClient = &awiCl.AwiGrpcClient{}
 	awiTestClient.WithLogger()
 
-	err = (&InterNetworkDomainReconciler{
+	err = (&InterNetworkDomainConnectionReconciler{
 		Client:    k8sManager.GetClient(),
 		Scheme:    k8sManager.GetScheme(),
 		AwiClient: awiTestClient,

@@ -97,12 +97,12 @@ func main() {
 
 	awiClient := client.NewClient(awiCatalystAddress)
 
-	if err = (&controllers.InterNetworkDomainReconciler{
+	if err = (&controllers.InterNetworkDomainConnectionReconciler{
 		Client:    mgr.GetClient(),
 		Scheme:    mgr.GetScheme(),
 		AwiClient: awiClient,
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "InterNetworkDomain")
+		setupLog.Error(err, "unable to create controller", "controller", "InterNetworkDomainConnection")
 		os.Exit(1)
 	}
 	if err = (&controllers.AppConnectionReconciler{

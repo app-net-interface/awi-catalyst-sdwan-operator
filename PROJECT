@@ -24,7 +24,7 @@ resources:
   controller: true
   domain: app-net-interface.io
   group: awi
-  kind: InterNetworkDomain
+  kind: InterNetworkDomainConnection
   path: app-net-interface.io/kube-awi/api/awi/v1alpha1
   version: v1alpha1
 - api:

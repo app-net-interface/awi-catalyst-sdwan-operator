@@ -15,30 +15,34 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# permissions for end users to view internetworkdomains.
+# permissions for end users to edit internetworkdomainconnections.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/name: clusterrole
-    app.kubernetes.io/instance: internetworkdomain-viewer-role
+    app.kubernetes.io/instance: internetworkdomainconnection-editor-role
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: kube-awi
     app.kubernetes.io/part-of: kube-awi
     app.kubernetes.io/managed-by: kustomize
-  name: internetworkdomain-viewer-role
+  name: internetworkdomainconnection-editor-role
 rules:
 - apiGroups:
   - awi.app-net-interface.io
   resources:
-  - internetworkdomains
+  - internetworkdomainconnections
   verbs:
+  - create
+  - delete
   - get
   - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - awi.app-net-interface.io
   resources:
-  - internetworkdomains/status
+  - internetworkdomainconnections/status
   verbs:
   - get

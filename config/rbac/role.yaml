@@ -59,7 +59,7 @@ rules:
 - apiGroups:
   - awi.app-net-interface.io
   resources:
-  - internetworkdomains
+  - internetworkdomainconnections
   verbs:
   - create
   - delete
@@ -71,13 +71,13 @@ rules:
 - apiGroups:
   - awi.app-net-interface.io
   resources:
-  - internetworkdomains/finalizers
+  - internetworkdomainconnections/finalizers
   verbs:
   - update
 - apiGroups:
   - awi.app-net-interface.io
   resources:
-  - internetworkdomains/status
+  - internetworkdomainconnections/status
   verbs:
   - get
   - patch
