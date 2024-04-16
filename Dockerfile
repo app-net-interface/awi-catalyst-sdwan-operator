@@ -33,5 +33,7 @@ FROM alpine:3.18.4
 WORKDIR /
 COPY --from=builder /root/go/src/github.com/kube-awi/bin/manager /manager
 
+LABEL org.opencontainers.image.source https://github.com/app-net-interface/kube-awi
+
 USER 65532:65532
 ENTRYPOINT ["/manager"]
