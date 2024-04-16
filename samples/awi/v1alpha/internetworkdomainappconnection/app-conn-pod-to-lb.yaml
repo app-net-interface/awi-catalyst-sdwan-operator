@@ -18,32 +18,35 @@
 apiVersion: awi.app-net-interface.io/v1alpha1
 kind: InterNetworkDomainAppConnection
 metadata:
-  name: access-lob-data-cluster
-  description: "Allow pods with environment=production and app=web to access LOB-Data-Cluster"
-  owner: "your-email@example.com"
-  namespace: "your-namespace"
-appConnection:
-  controller:
-    - "Cisco vManage"
-  metadata:
-    name: "access-lob-data-cluster"
-    description: "Access to LOB-Data-Cluster for production web pods"
-  from:
-    - endpoint:
+  name: ml-training-app-to-ml-dataset-lb-service
+spec:
+  appConnection:
+    networkDomainConnection:
+      selector:
+        matchName: 5792151095598867388:7353759886839084744
+    metadata:
+      name: ml-training-app-to-ml-dataset-lb-service
+    from:
+      endpoint:
+        kind: pod
+        selector:
+          matchCluster:
+            name: ml-training-cluster
+          matchLabels:
+            app: ml-training-app
+    to:
+      service:
         kind:
-          - pod
+          k8sService:
+            serviceType: loadBalancer
         selector:
-          - matchLabels:
-              environment: "production"
-              app: "web"
-  to:
-    - cluster:
-        selector:
-          - matchName:
-              name: "LOB-Data-Cluster"
-  networkAccessControl:
-    - protocol: TCP
-      port: "1-65535"
-  accessType:
-    - allow
-
+          matchCluster:
+            name: ml-dataset-cluster
+          matchNamespace:
+            name: ml-dataset
+          matchName:
+            name: ml-dataset-service
+    accessPolicy:
+      selector:
+        matchName:
+          name: "access-policy-1"

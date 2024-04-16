@@ -15,28 +15,29 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-appConnection:
-  controller: Cisco_vManage
-  networkDomainConnection:
-    name: 8528197605643627928:1747121394098482639
-  metadata:
-    name: awi-prefix-based-connection
-    description: Connecting subnet from staging VPC to subnet from development VPC
-  from:
-    subnet:
+apiVersion: awi.app-net-interface.io/v1alpha1
+kind: InterNetworkDomainAppConnection
+metadata:
+  name: app-connectivity-dev-web-to-messaging-service
+spec:
+  appConnection:
+    from:
+      endpoint:
+        kind: pod
+        selector:
+          matchLabels:
+            environment: "dev"
+            type: "web"
+    to:
+      endpoint:
+        kind: pod
+        selector:
+          matchLabels:
+            type: "messaging-service"
+    accessPolicy:
       selector:
-        matchPrefix:
-          - 10.160.0.0/16
-  to:
-    subnet:
+        matchName:
+          name: "access-policy-1"
+    networkDomainConnection:
       selector:
-        matchPrefix:
-          - 10.150.0.0/16
-  networkAccessControl:
-    accessRules:
-      - protocol: ICMP
-      - protocol: TCP
-        port: 80
-      - protocol: TCP
-        port: 3306-3310
-  accessType: allow
+        matchName: "vpc-dev-web-to-messaging-service"

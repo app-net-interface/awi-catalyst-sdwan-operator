@@ -18,27 +18,32 @@
 apiVersion: awi.app-net-interface.io/v1alpha1
 kind: InterNetworkDomainAppConnection
 metadata:
-  name: appconnection-sample
+  name: pod-to-node-port
 spec:
   appConnection:
-    controller: Cisco_vManage
     networkDomainConnection:
       selector:
-        matchName: "9153726121637420078:vpc-05cc43b851bf567b1" # or ID: 8528197605643627928:1747121394098482639
+        matchName: 5792151095598867388:7353759886839084744
     metadata:
-      name: my-sweet-connection
-      description: Connecting database VMs in staging and development VPCs
+      name: ml-training-app-to-ml-dataset-node-port-service
     from:
       endpoint:
+        kind: pod
         selector:
+          matchCluster:
+            name: gke_gcp-ibngctopoc-nprd-72084_us-west1-a_ml-training-cluster
           matchLabels:
-            app_type: ml-training
+            app: ml-training-app
     to:
-      endpoint:
+      service:
+        kind:
+          k8sService:
+            serviceType: nodePort
         selector:
-          matchLabels:
-            app_type: ml-data
-    accessPolicy:
-      selector:
-        matchName:
-          name: "my-policy"
+          matchCluster:
+            name: gke_gcp-ibngctopoc-nprd-72084_us-east1-b_ml-dataset-cluster
+          matchNamespace:
+            name: kube-system
+          matchName:
+            name: default-http-backend
+
