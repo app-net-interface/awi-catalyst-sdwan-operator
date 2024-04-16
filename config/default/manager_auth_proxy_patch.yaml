@@ -41,5 +41,5 @@ spec:
         args:
         - "--health-probe-bind-address=:8081"
         - "--metrics-bind-address=127.0.0.1:8080"
-        - "--awi-catalyst-address=host.minikube.internal:50051"
+        - "--awi-catalyst-address=awi-grpc-catalyst-sdwan:50051"
         - "--leader-elect"
