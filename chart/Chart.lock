@@ -1,0 +1,6 @@
+dependencies:
+- name: awi-catalyst-sdwan-k8s-operator
+  repository: file://awi-catalyst-sdwan-k8s-operator
+  version: 0.1.0
+digest: sha256:144229b52274ee694ff5156c526cf1129ada85767afc3ca266b9f8f0679d6d72
+generated: "2024-04-18T11:43:06.084909395+02:00"

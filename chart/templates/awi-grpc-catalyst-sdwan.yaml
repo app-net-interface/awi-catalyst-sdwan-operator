@@ -1,0 +1,104 @@
+{{- if eq .Values.config.connector "vManage" }}
+{{- if eq .Values.config.sdwan.url "" }}
+{{- fail "Cannot deploy Catalyst-SDWAN-AWI-Plugin. sdwan config is missing url value." }}
+{{- end }}
+{{- end }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: awi-grpc-catalyst-sdwan-config
+data:
+  config.yaml: |
+    controllers:
+      sdwan:
+        controller_connection_retries: {{ .Values.config.sdwan.controller_connection_retries }}
+        name: {{ .Values.config.sdwan.name }}
+        retries_interval: {{ .Values.config.sdwan.retries_interval }}
+        secure_connection: {{ .Values.config.sdwan.secure_connection }}
+        url: {{ .Values.config.sdwan.url }}
+        vendor: {{ .Values.config.sdwan.vendor }}
+    globals:
+      hostname: {{ .Values.config.hostname }}
+      port: {{ .Values.config.targetPort }}
+      controller_connection_retries: {{ .Values.config.controller_connection_retries }}
+      db_name: {{ .Values.config.db_name }}
+      log_file: {{ .Values.config.log_file }}
+      log_level: {{ .Values.config.log_level }}
+      retries_interval: {{ .Values.config.retries_interval }}
+      secure_connection: {{ .Values.config.secure_connection }}
+      kube_config_file: {{ .Values.config.kube_config_file }}
+      network_domain_connector: {{ .Values.config.connector }}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awi-grpc-catalyst-sdwan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: awi-grpc-catalyst-sdwan
+  template:
+    metadata:
+      labels:
+        app: awi-grpc-catalyst-sdwan
+    spec:
+      containers:
+      - name: awi-grpc-catalyst-sdwan
+        image: {{ .Values.registry.address }}/awi-grpc-catalyst-sdwan:{{ .Values.version }}
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /app/gcp-key/gcp-key.json 
+        - name: CATALYST_SDWAN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: catalyst-sdwan-credentials
+              key: username
+        - name: CATALYST_SDWAN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: catalyst-sdwan-credentials
+              key: password
+        volumeMounts:
+        - name: config-volume
+          mountPath: "/root/config/"
+        - name: aws-cred-volume
+          mountPath: "/root/.aws/"
+        - name: gcp-cred-volume
+          mountPath: "/app/gcp-key/"
+        - name: kube-config-volume
+          mountPath: "/root/.kube/"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: awi-grpc-catalyst-sdwan-config
+          items:
+          - key: config.yaml
+            path: config.yaml
+      - name: aws-cred-volume
+        secret:
+          secretName: aws-credentials
+      - name: gcp-cred-volume
+        secret:
+          secretName: gcp-credentials
+      - name: kube-config-volume
+        secret:
+          secretName: kube-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: awi-grpc-catalyst-sdwan
+spec:
+  type: ClusterIP
+  selector:
+    app: awi-grpc-catalyst-sdwan
+  ports:
+    - protocol: TCP
+      port: {{ .Values.config.port }}
+      targetPort: {{ .Values.config.targetPort }}

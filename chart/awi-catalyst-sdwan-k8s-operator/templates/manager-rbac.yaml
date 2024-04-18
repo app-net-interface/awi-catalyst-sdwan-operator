@@ -1,0 +1,230 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "awi-catalyst-sdwan-k8s-operator.fullname" . }}-manager-role
+  labels:
+  {{- include "awi-catalyst-sdwan-k8s-operator.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - instances
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - instances/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - instances/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - internetworkdomainappconnections
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - internetworkdomainappconnections/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - internetworkdomainappconnections/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - internetworkdomainconnections
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - internetworkdomainconnections/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - internetworkdomainconnections/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - networkdomains
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - networkdomains/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - networkdomains/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - sites
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - sites/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - sites/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - subnets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - subnets/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - subnets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - vpcs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - vpcs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - vpcs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - vpns
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - vpns/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - awi.app-net-interface.io
+  resources:
+  - vpns/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "awi-catalyst-sdwan-k8s-operator.fullname" . }}-manager-rolebinding
+  labels:
+  {{- include "awi-catalyst-sdwan-k8s-operator.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: '{{ include "awi-catalyst-sdwan-k8s-operator.fullname" . }}-manager-role'
+subjects:
+- kind: ServiceAccount
+  name: '{{ include "awi-catalyst-sdwan-k8s-operator.fullname" . }}-controller-manager'
+  namespace: '{{ .Release.Namespace }}'

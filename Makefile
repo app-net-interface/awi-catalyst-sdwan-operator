@@ -168,6 +168,7 @@ $(LOCALBIN):
 
 ## Tool Binaries
 KUSTOMIZE ?= $(LOCALBIN)/kustomize
+HELMIFY ?= $(LOCALBIN)/helmify
 CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen
 ENVTEST ?= $(LOCALBIN)/setup-envtest
 
@@ -185,6 +186,19 @@ $(KUSTOMIZE): $(LOCALBIN)
 controller-gen: $(CONTROLLER_GEN) ## Download controller-gen locally if necessary.
 $(CONTROLLER_GEN): $(LOCALBIN)
 	test -s $(LOCALBIN)/controller-gen || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_TOOLS_VERSION)
+
+.PHONY: helmify
+helmify: $(HELMIFY) ## Download helmify locally if necessary.
+$(HELMIFY): $(LOCALBIN)
+	test -s $(LOCALBIN)/helmify || GOBIN=$(LOCALBIN) go install github.com/arttor/helmify/cmd/helmify@v0.4.11
+
+.PHONY: build-operator-chart
+build-operator-chart: manifests kustomize helmify
+	$(KUSTOMIZE) build config/default | $(HELMIFY) awi-catalyst-sdwan-k8s-operator
+	rm -rf helm/awi-catalyst-sdwan-k8s-operator
+	mv awi-catalyst-sdwan-k8s-operator helm/
+	helm dependency update helm/
+	helm dependency build helm/
 
 .PHONY: envtest
 envtest: $(ENVTEST) ## Download envtest-setup locally if necessary.
