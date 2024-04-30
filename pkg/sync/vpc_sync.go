@@ -48,12 +48,32 @@ func (s *VPCSyncer) Sync() error {
 
 	var err error
 	var existingVPCs []*awi.VPC
+
+	atLeastSomethingSynced := false
+
+	s.logger.Info("tu dociero")
+
 	for _, cloud := range SupportedClouds {
 		cloudVPCs, err := s.awiClient.ListVPCs(cloud)
-		existingVPCs = append(existingVPCs, cloudVPCs...)
+
+		s.logger.Info(fmt.Sprintf("got vpcs for cloud %s: %v", cloud, existingVPCs))
 		if err != nil {
-			return err
+			s.logger.Error(
+				err, fmt.Sprintf("failed to list VPCs for Cloud %s", cloud),
+			)
+			continue
 		}
+		existingVPCs = append(existingVPCs, cloudVPCs...)
+		atLeastSomethingSynced = true
+	}
+
+	s.logger.Info(fmt.Sprintf("got vpcs: %v", existingVPCs))
+
+	if !atLeastSomethingSynced {
+		return fmt.Errorf(
+			"failed to sync VPCs as all provided Clouds %v failed to synchronize",
+			SupportedClouds,
+		)
 	}
 
 	var vpcList apiv1.VPCList

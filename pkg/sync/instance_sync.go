@@ -54,11 +54,18 @@ func (s *InstanceSyncer) Sync() error {
 	var err error
 
 	var existingInstances []instanceWithProvider
+
+	atLeastSomethingSynced := false
+
 	for _, cloud := range SupportedClouds {
 		cloudInstances, err := s.awiClient.ListInstances(cloud)
 		if err != nil {
-			return err
+			s.logger.Error(
+				err, fmt.Sprintf("failed to list instances for Cloud %s", cloud),
+			)
+			continue
 		}
+		atLeastSomethingSynced = true
 		for _, instance := range cloudInstances {
 			withProvider := instanceWithProvider{
 				Instance: instance,
@@ -66,6 +73,13 @@ func (s *InstanceSyncer) Sync() error {
 			}
 			existingInstances = append(existingInstances, withProvider)
 		}
+	}
+
+	if !atLeastSomethingSynced {
+		return fmt.Errorf(
+			"failed to sync instances as all provided Clouds %v failed to synchronize",
+			SupportedClouds,
+		)
 	}
 
 	var instanceList apiv1.InstanceList

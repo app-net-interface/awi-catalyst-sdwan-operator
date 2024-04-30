@@ -147,7 +147,14 @@ func (s *NetworkDomainSyncer) Sync() error {
 }
 
 func getVPCNetworkDomainCRDName(vpc *apiv1.VPC) string {
-	return fmt.Sprintf("vpc.%s.%s.%s", strings.ToLower(vpc.Spec.GetProvider()), vpc.Spec.GetName(), vpc.Spec.GetID())
+	if vpc.Spec.GetName() == "" {
+		return strings.ToLower(fmt.Sprintf("vpc.%s.%s", strings.ToLower(vpc.Spec.GetProvider()), vpc.Spec.GetID()))
+	}
+	return strings.ToLower(fmt.Sprintf(
+		"vpc.%s.%s.%s",
+		vpc.Spec.GetProvider(),
+		strings.Replace(vpc.Spec.GetName(), " ", "-", -1),
+		vpc.Spec.GetID()))
 }
 
 func getVPNNetworkDomainCRDName(vpn *apiv1.VPN) string {

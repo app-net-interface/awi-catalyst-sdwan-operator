@@ -54,11 +54,18 @@ func (s *SubnetSyncer) Sync() error {
 	var err error
 
 	var existingSubnets []subnetWithProvider
+
+	atLeastSomethingSynced := false
+
 	for _, cloud := range SupportedClouds {
 		cloudSubnets, err := s.awiClient.ListSubnets(cloud)
 		if err != nil {
-			return err
+			s.logger.Error(
+				err, fmt.Sprintf("failed to list subnets for Cloud %s", cloud),
+			)
+			continue
 		}
+		atLeastSomethingSynced = true
 		for _, subnet := range cloudSubnets {
 			withProvider := subnetWithProvider{
 				Subnet:   subnet,
@@ -66,6 +73,13 @@ func (s *SubnetSyncer) Sync() error {
 			}
 			existingSubnets = append(existingSubnets, withProvider)
 		}
+	}
+
+	if !atLeastSomethingSynced {
+		return fmt.Errorf(
+			"failed to sync subnets as all provided Clouds %v failed to synchronize",
+			SupportedClouds,
+		)
 	}
 
 	var subnetList apiv1.SubnetList
