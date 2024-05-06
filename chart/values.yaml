@@ -1,0 +1,34 @@
+version: "0.1"
+
+registry:
+  address: "ghcr.io/app-net-interface"
+
+config:
+    port: 50051
+    targetPort: 50051
+    connector: vManage
+    hostname: 0.0.0.0
+    kube_config_file: kubeconfig
+    secure_connection: false
+    controller_connection_retries: 100
+    db_name: awi.db
+    log_file: ""
+    log_level: DEBUG
+    retries_interval: 2s
+    sdwan:
+      name: cisco-sdwan
+      vendor: cisco
+      url: ""
+      secure_connection: false
+      retries_interval: 5s
+      controller_connection_retries: 200
+
+awi-catalyst-sdwan-k8s-operator:
+  fullnameOverride: awi-k8s-operator
+
+  # Override awi-catalyst-sdwan-k8s-operator defaults here.
+  controllerManager:
+      manager:
+        image:
+          repository: ghcr.io/app-net-interface/kube-awi
+          tag: "0.1"

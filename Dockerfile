@@ -26,6 +26,8 @@ WORKDIR /root/go/src/github.com/kube-awi
 COPY . .
 RUN rm bin/*
 
+RUN apk add make bash
+
 RUN make build
 
 # Second stage: create the runtime image
