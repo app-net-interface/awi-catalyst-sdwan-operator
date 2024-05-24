@@ -1,16 +1,16 @@
-# kube-awi
+# catalyst-sdwan-operator
 Cisco k8s operator and controller implementation for Application WAN Interface (AWI)
 
-The kube-awi allows using k8s custom resources to interact with AWI project.
+The catalyst-sdwan-operator allows using k8s custom resources to interact with AWI project.
 
 ## Overview
 
-With kube-awi installed on the k8s cluster, the following actions can be done:
+With catalyst-sdwan-operator installed on the k8s cluster, the following actions can be done:
 
 * creating requests to awi with `kubectl apply`
 * getting information about instances, network domains etc. with `kubectl get`
 
-Installation of kube-awi on the k8s cluster involves creating Custom Resource
+Installation of catalyst-sdwan-operator on the k8s cluster involves creating Custom Resource
 Definitions, namely:
 
 * instances.awi.app-net-interface.io
@@ -94,8 +94,8 @@ operator.
 
 ![Image of Kube AWI](docs/kube-awi.png)
 
-Installation of the kube-awi on the k8s creates a special deployment
-called `kube-awi-controller-manager` (kube-awi operator in the graph) which acts as a special process
+Installation of the catalyst-sdwan-operator on the k8s creates a special deployment
+called `catalyst-sdwan-operator-controller-manager` (catalyst-sdwan-operator operator in the graph) which acts as a special process
 that will:
 
 * watch for updates of `internetworkdomainconnections` and
@@ -106,13 +106,13 @@ that will:
     subnets, instances etc. from `awi-grpc-catalyst-sdwan` and
     creating custom resources inside the cluster
 
-The Kube-AWI operator consists of so called controllers, that define
+The catalyst-sdwan-operator operator consists of so called controllers, that define
 methods to be triggered for certain events, syncer which is a simple
 goroutine and awi client which implements necessary interfaces and
 specifies an address of the actual server from which the information
 will be received and where connection requests will be forwarded.
 
-The Kube-AWI operator also includes standard k8s operator manager
+The catalyst-sdwan-operator operator also includes standard k8s operator manager
 responsible for health checks and other useful resources.
 
 ### Controllers
@@ -125,7 +125,7 @@ A Controller specifies `Reconcile` method will is triggered whenever
 there is an update of the certain Custom Resource. This method will
 be called whenever a resource is created/updated/deleted.
 
-Currently, kube-awi defines both resources in the following manner:
+Currently, catalyst-sdwan-operator defines both resources in the following manner:
 
 * removing Custom Resource using `kubectl delete` triggers deletion
     of VPC Connection or App Connection
@@ -158,7 +158,7 @@ what was the error etc.
 
 ### Synchronizers
 
-Kube-awi operator runs a syncing goroutine which periodically calls
+catalyst-sdwan-operator operator runs a syncing goroutine which periodically calls
 awi-grpc-catalyst-sdwan to obtain resources from the AWI. Later, it
 creates or updates Custom Resources associated with these resources.
 
@@ -170,7 +170,7 @@ are eventually consistent.
 
 ## Development
 
-The kube-awi uses kubebuilder framework for automatic creation of:
+The catalyst-sdwan-operator uses kubebuilder framework for automatic creation of:
 * Custom Resource Definitions
 * Operator's code for UPDATE actions
 
@@ -229,18 +229,18 @@ Run:
 - (if you use remote cluster) `make docker-push`,
 - `make deploy` to update image in cluster controller deployment.
 
-## Extending Kube-AWI
+## Extending catalyst-sdwan-operator
 
-Currently, the kube-awi project gathers the entire logic in the
+Currently, the catalyst-sdwan-operator project gathers the entire logic in the
 `main.go` file which is an entry point for the k8s operator. This
 file instantiates k8s operator manager, initializes kube awi client,
 registers existing reconcilers and runs syncing goroutine.
 
-To make kube-awi more opened for other possible controllers, the
+To make catalyst-sdwan-operator more opened for other possible controllers, the
 main file requires some design decisions over how different
 controllers should be implemented.
 
-1. The kube-awi embeds all 3 GRPC interfaces (connection, app connection and cloud clients)
+1. The catalyst-sdwan-operator embeds all 3 GRPC interfaces (connection, app connection and cloud clients)
     into single client with a configurable address. It means that current implementation
     prevents user from specifying a different address for cloud interface responsible for
     obtaining information about existing subnets etc. and for connection/app connection
@@ -254,12 +254,12 @@ controllers should be implemented.
 1. Connection and App Connection interfaces are explicitely loaded in the `main.go`
     file. If a new controller requires a different reconciling action, a new provider
     should be specified. Considering a scenario where all controller versions are
-    specified inside kube-awi repository, the `main.go` file should be changed to
+    specified inside catalyst-sdwan-operator repository, the `main.go` file should be changed to
     dynamically load desired controllers based on the provided configuration.
 
 1. Syncer goroutine is quite specific to awi project and the user may wish to use
     different implementation, use different CRDs for that or to not use syncer at
-    all. This topic leads to a further design discussion around making kube-awi
+    all. This topic leads to a further design discussion around making catalyst-sdwan-operator
     a library.
 
 The project graph above shows the existing dependencies and potential points of
@@ -329,7 +329,7 @@ vpns.awi.app-net-interface.io                               2024-02-09T04:09:55Z
 > kubectl get pods -A
 ---
 NAMESPACE     NAME                                          READY   STATUS    RESTARTS      AGE
-awi-system    kube-awi-controller-manager-9d4697db6-h9qmn   2/2     Running   0             24m
+awi-system    catalyst-sdwan-operator-controller-manager-9d4697db6-h9qmn   2/2     Running   0             24m
 kube-system   coredns-5dd5756b68-kz7zq                      1/1     Running   0             20h
 kube-system   etcd-minikube                                 1/1     Running   0             20h
 kube-system   kube-apiserver-minikube                       1/1     Running   0             20h
@@ -339,10 +339,10 @@ kube-system   kube-scheduler-minikube                       1/1     Running   0 
 kube-system   storage-provisioner                           1/1     Running   1 (20h ago)   20h
 ```
 
-In order to make `kube-awi-controller-manager` working you need to modify the deployent:
+In order to make `catalyst-sdwan-operator-controller-manager` working you need to modify the deployent:
 
 ```
-kubectl edit deployment  kube-awi-controller-manager -n awi-system
+kubectl edit deployment  catalyst-sdwan-operator-controller-manager -n awi-system
 ```
 
 Locate args and add `--awi-catalyst-address` pointing at the local process
@@ -412,8 +412,8 @@ Thank you for interest in contributing! Please refer to our
 
 ## License
 
-kube-awi is released under the Apache 2.0 license. See
+catalyst-sdwan-operator is released under the Apache 2.0 license. See
 [LICENSE](./LICENSE).
 
-kube-awi is also made possible thanks to
+catalyst-sdwan-operator is also made possible thanks to
 [third party open source projects](NOTICE).
